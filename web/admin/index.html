@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-guard>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>판매운영자 콘솔 · 송산언덕</title>
 <link rel="stylesheet" href="../assets/css/admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js" defer></script>
+<script src="../assets/js/supabase-config.js"></script>
 <script src="../assets/js/staff-auth.js"></script>
-<script>if(!window.SONGSAN_STAFF.current()) location.replace("login.html?next=index.html");</script>
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/icon/favicon-32.png">
@@ -112,8 +113,25 @@
 </div>
 
 <script>
-const STAFF = window.SONGSAN_STAFF.guard("s", "login.html");
-document.getElementById("signout").onclick = function (e) { e.preventDefault(); window.SONGSAN_STAFF.logout(); location.href = "login.html"; };
+const Staff = window.SONGSAN_STAFF;
+
+Staff.guard('s', 'login.html').then(function (me) {
+  if (!me) return;
+  var role = document.querySelector('.a-top .role');
+  role.textContent = (me.role === 'admin' ? 'ADMIN · 최고관리자' : 'S · 판매운영자');
+  role.title = me.email || '';
+  document.querySelector('.brand').insertAdjacentHTML('beforeend',
+    ' <span style="font-size:12px;color:var(--a-text-2)">' + (me.name || '') + '</span>');
+  /* 최고관리자만 생산자 화면으로 바로 넘어갈 수 있다 */
+  var link = document.querySelector('nav a[href="login.html"]');
+  if (link && me.role === 'admin') { link.href = '../producer/index.html'; link.textContent = '생산자 화면'; }
+});
+
+document.getElementById('signout').onclick = async function (e) {
+  e.preventDefault();
+  await Staff.logout();
+  location.href = 'login.html';
+};
 
 const ORDERS = [
   { no: 'SH260920-4821', to: '김○○', items: '캠벨 2 · MBA 1', amt: 61000, st: 'paid' },

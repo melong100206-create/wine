@@ -97,3 +97,11 @@ td.r, th.r { text-align: right; }
 .p-check { width: 100%; padding: 14px 18px; font-size: 15px; border-radius: 3px; border: 1px solid var(--a-line); background: #fff; }
 .p-check.on { background: var(--a-ok); border-color: var(--a-ok); color: #fff; }
 @media (max-width: 620px) { .p-item { grid-template-columns: 1fr; } }
+
+/* 권한 확인이 끝나기 전에는 보호 화면 내용을 보여주지 않는다 */
+html.staff-checking body > * { visibility: hidden; }
+html.staff-checking body::after {
+  content: "권한 확인 중…";
+  position: fixed; inset: 0; display: grid; place-items: center;
+  color: var(--a-text-2); font-size: 14px; background: var(--a-bg); visibility: visible;
+}

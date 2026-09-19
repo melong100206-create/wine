@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-guard>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>오늘 담을 것 · 송산언덕 포도원</title>
 <link rel="stylesheet" href="../assets/css/admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js" defer></script>
+<script src="../assets/js/supabase-config.js"></script>
 <script src="../assets/js/staff-auth.js"></script>
-<script>if(!window.SONGSAN_STAFF.current()) location.replace("../admin/login.html?next=index.html");</script>
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/icon/favicon-32.png">
@@ -60,8 +61,19 @@
 </div>
 
 <script>
-window.SONGSAN_STAFF.guard("p", "../admin/login.html");
-document.getElementById("signout").onclick = function (e) { e.preventDefault(); window.SONGSAN_STAFF.logout(); location.href = "../admin/login.html"; };
+const Staff = window.SONGSAN_STAFF;
+
+Staff.guard('p', '../admin/login.html').then(function (me) {
+  if (!me) return;
+  document.querySelector('.brand').insertAdjacentHTML('beforeend',
+    ' <span style="font-size:12px;color:var(--a-text-2)">' + (me.name || '') + '</span>');
+});
+
+document.getElementById('signout').onclick = async function (e) {
+  e.preventDefault();
+  await Staff.logout();
+  location.href = '../admin/login.html';
+};
 
 const TASKS = [
   { n: '캠벨 얼리 드라이', s: '750ml · 일반 박스', q: 54, done: false },

@@ -35,8 +35,8 @@
     <div id="err"></div>
 
     <div class="sf">
-      <label for="id">아이디</label>
-      <input id="id" autocomplete="username" placeholder="manager 또는 farmer">
+      <label for="id">이메일</label>
+      <input id="id" type="email" autocomplete="username" placeholder="name@songsanhill.kr">
     </div>
     <div class="sf">
       <label for="pw">비밀번호</label>
@@ -46,28 +46,49 @@
     <button class="a-btn primary lg" id="go">로그인</button>
 
     <p class="note" style="margin-top:18px">
-      프로토타입 데모 계정 — 판매운영자 <b>manager</b> / 생산자 <b>farmer</b>, 비밀번호는 둘 다 <b>songsan2026</b>.
-      실제 구축 시 서버 인증과 역할 기반 권한으로 교체됩니다.
+      Supabase 계정으로 로그인합니다. 역할(판매운영자 · 생산자)은 서버의 <code>songsan_staff</code> 표에서만 부여되며,
+      권한이 없는 계정은 로그인해도 내부 화면에 들어올 수 없습니다.
     </p>
     <p style="margin-top:14px;font-size:12.5px"><a href="../index.html" style="color:var(--a-text-2)">← 소비자 사이트로</a></p>
   </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js" defer></script>
+<script src="../assets/js/supabase-config.js"></script>
 <script src="../assets/js/staff-auth.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   var Staff = window.SONGSAN_STAFF;
   var next = new URLSearchParams(location.search).get('next');
+  var err = document.getElementById('err');
+  var fail = function (m) { err.innerHTML = '<div class="err">' + m + '</div>'; };
 
-  document.getElementById('go').addEventListener('click', function (e) {
+  function go(role) {
+    var page = (next && next.indexOf('http') !== 0 && /^[\w.-]+\.html$/.test(next)) ? next : 'index.html';
+    location.href = (role === 'p') ? '../producer/' + page : './' + page;   // admin·s → 관리자 콘솔
+  }
+
+  /* 이미 내부 계정으로 로그인되어 있으면 바로 넘긴다 */
+  var me = await Staff.ready;
+  if (me) { go(me.role); return; }
+
+  if (!Staff.available) {
+    fail('인증 서버에 연결할 수 없습니다. 네트워크 또는 Supabase 설정을 확인하십시오.');
+    document.getElementById('go').disabled = true;
+    return;
+  }
+
+  document.getElementById('go').addEventListener('click', async function (e) {
     e.preventDefault();
+    var btn = this;
+    err.innerHTML = '';
+    btn.disabled = true; btn.textContent = '확인 중…';
     try {
-      var a = Staff.login(document.getElementById('id').value, document.getElementById('pw').value);
-      location.href = next && next.indexOf('http') !== 0
-        ? (a.role === 's' ? './' + next : '../producer/' + next)
-        : (a.role === 's' ? 'index.html' : '../producer/index.html');
-    } catch (err) {
-      document.getElementById('err').innerHTML = '<div class="err">' + err.message + '</div>';
+      var staff = await Staff.login(document.getElementById('id').value, document.getElementById('pw').value);
+      go(staff.role);
+    } catch (ex) {
+      fail(ex.message);
+      btn.disabled = false; btn.textContent = '로그인';
     }
   });
 });

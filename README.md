@@ -71,7 +71,22 @@ python -m http.server 5173 --directory web
   - Redirect URLs: `https://melong100206-create.github.io/wine/**`, `http://localhost:5173/**`
 - Supabase 기본 SMTP 는 시간당 발송 수가 적습니다. 실사용 전에는 Authentication → Emails 에서 자체 SMTP(예: Resend)를 연결하십시오.
 - 키가 비어 있거나 서버에 닿지 않으면 로그인 버튼이 비활성화되고 안내만 뜹니다 — 둘러보기·장바구니·**비회원 주문**은 그대로 동작합니다.
-- 내부(S·P) 화면은 아직 [staff-auth.js](web/assets/js/staff-auth.js) 목업입니다(데모 `manager` / `farmer`, 비밀번호 `songsan2026`). 실서비스 전에는 Supabase 역할 기반 권한으로 옮겨야 합니다.
+
+### 내부 계정 (S 판매운영자 / P 생산자 / 최고관리자)
+
+내부 화면도 같은 Supabase Auth 를 쓰되, **`songsan_staff` 표에 행이 있는 계정만** 들어올 수 있습니다.
+스키마: [supabase/migrations/0002_songsan_staff.sql](supabase/migrations/0002_songsan_staff.sql)
+
+- 역할: `admin`(최고관리자 — 두 화면 모두), `s`(판매운영자), `p`(생산자)
+- `songsan_staff` 에는 **select 정책만** 있습니다. 브라우저에서는 어떤 방법으로도 스스로에게 역할을 줄 수 없습니다.
+- 역할 부여는 SQL Editor 전용 함수로만 가능합니다 (anon·authenticated 에서 실행 권한 회수):
+  ```sql
+  select public.songsan_grant_staff('kds08200820@gmail.com', 'admin', '김동석');
+  ```
+  대상 계정은 Authentication → Users → Add user 로 먼저 만들어야 합니다.
+- 권한 회수: `update public.songsan_staff set active = false where id = (select id from auth.users where email = '...');`
+- 권한이 없는 계정으로 로그인하면 즉시 로그아웃되고 "내부 시스템에 접근할 수 있는 계정이 아닙니다" 안내가 뜹니다.
+- 보호 화면은 권한 확인이 끝날 때까지 내용을 가립니다(내용이 잠깐 비치는 것 방지).
 
 ## 프로토타입 범위 (아직 없는 것)
 
