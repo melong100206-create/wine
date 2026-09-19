@@ -174,8 +174,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* 데이터를 아껴야 하는 환경에서는 영상을 받지 않는다.
        숨겨진 탭에서는 innerWidth 가 0 으로 잡히므로 여러 값을 함께 본다. */
-    v.addEventListener('loadeddata', function () { v.classList.add('playing'); });
-    v.addEventListener('error', function () { v.classList.remove('playing'); }, true);
+    /* 실제로 재생 중일 때만 영상을 앞세운다 — 멈춰 있으면 poster 가 보이는 편이 낫다 */
+    v.addEventListener('playing', function () { v.classList.add('playing'); });
+    ['pause', 'stalled', 'error'].forEach(function (ev) {
+      v.addEventListener(ev, function () { v.classList.remove('playing'); }, true);
+    });
 
     function loadHeroVideo() {
       if (v.src) return;                                   // 이미 로드함

@@ -121,8 +121,9 @@ def assemble():
         tag = f"[x{i}]"
         chain.append(f"{prev}{labels[i]}xfade=transition=fade:duration={fade}:offset={off:.2f}{tag}")
         prev = tag
-    # 마지막 페이드 인/아웃으로 루프 이음새를 감춘다
-    chain.append(f"{prev}fade=t=in:st=0:d=0.6,fade=t=out:st={off + seg - 0.6:.2f}:d=0.6[out]")
+    # 검은 화면에서 시작하지 않는다 — poster 와 첫 프레임이 이어져야 하고,
+    # 일시정지 상태에서도 첫 프레임이 그대로 배경이 된다.
+    chain.append(f"{prev}null[out]")
 
     cmd = ["ffmpeg", "-y", *inputs,
            "-filter_complex", ";".join(filters + chain),

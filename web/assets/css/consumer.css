@@ -9,9 +9,9 @@
 }
 .hero-media { position: absolute; inset: 0; z-index: 0; }
 .hero-media video, .hero-media .hero-fallback { width: 100%; height: 100%; object-fit: cover; }
-/* video 요소 자체를 숨기면 poster 까지 사라진다 — 포스터는 항상 보이게 두고
-   재생이 시작되면 아주 가볍게 밝기만 붙인다 */
-.hero-media video { opacity: .92; transition: opacity 1.2s var(--ease); }
+/* 재생 전에는 poster(hero.webp)가 배경을 맡고, 재생이 시작되면 영상이 앞선다.
+   video 요소를 완전히 숨기면 poster 까지 사라지므로 살짝만 낮춘다. */
+.hero-media video { opacity: .9; transition: opacity 1.4s var(--ease); }
 .hero-media video.playing { opacity: 1; }
 .hero-media::after {
   content: ""; position: absolute; inset: 0;
