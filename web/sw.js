@@ -3,7 +3,7 @@
    화면은 네트워크 우선(최신 재고·출고일이 중요), 정적 자산은 캐시 우선.
    오프라인이면 offline.html 로 안내한다.
    ========================================================================== */
-const VERSION = 'songsan-v1';
+const VERSION = 'songsan-v2';
 const SHELL = VERSION + '-shell';
 const RUNTIME = VERSION + '-runtime';
 
@@ -26,6 +26,7 @@ const PRECACHE = [
   'assets/js/data.js',
   'assets/js/card.js',
   'assets/js/auth.js',
+  'assets/js/supabase-config.js',
   'assets/js/site.js',
   'assets/img/icon/icon-192.png',
   'assets/img/icon/icon-512.png',

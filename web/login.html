@@ -15,6 +15,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="송산언덕">
 <meta name="mobile-web-app-capable" content="yes">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js" defer></script>
 </head>
 <body data-base="./">
 
@@ -47,7 +48,8 @@
         <p class="auth-msg" id="l-msg" hidden></p>
         <button class="btn btn-primary btn-block" id="do-login">로그인</button>
         <p class="dim xsmall center" style="margin-top:6px">
-          계정이 없으시면 위의 <b>회원가입</b> 탭에서 만드실 수 있습니다.
+          계정이 없으시면 위의 <b>회원가입</b> 탭에서 만드실 수 있습니다.<br>
+          비밀번호를 잊으셨다면 <a href="#" id="forgot" style="color:var(--accent);text-decoration:underline">재설정 메일 받기</a>
         </p>
       </form>
 
@@ -91,8 +93,8 @@
         <li>체험농장 초청 우선 예약</li>
       </ul>
       <p class="dim xsmall" style="margin-top:28px;line-height:1.9">
-        프로토타입 안내 · 계정 정보는 이 브라우저에만 저장되며 서버로 전송되지 않습니다.
-        비밀번호는 salt + SHA-256 해시로 보관합니다.
+        인증은 Supabase Auth 를 사용합니다. 비밀번호는 서버에서만 다루며 브라우저에 저장되지 않고,
+        주문·배송 정보는 본인만 조회할 수 있도록 행 수준 보안(RLS)이 걸려 있습니다.
       </p>
     </aside>
   </div>
@@ -100,15 +102,14 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/card.js"></script>
+<script src="assets/js/supabase-config.js"></script>
 <script src="assets/js/auth.js"></script>
 <script src="assets/js/site.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   var S = window.SONGSAN, A = S.Auth;
   var params = new URLSearchParams(location.search);
   var next = params.get('next') || 'account.html';
-
-  if (A.current()) { location.replace(next); return; }
 
   var panels = { login: document.getElementById('panel-login'), signup: document.getElementById('panel-signup') };
   function show(tab) {
@@ -121,35 +122,80 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   if (params.get('tab') === 'signup') show('signup');
 
-  function msg(el, text, ok) {
-    el.hidden = false;
-    el.textContent = text;
-    el.classList.toggle('ok', !!ok);
+  function msg(el, text, ok) { el.hidden = false; el.textContent = text; el.classList.toggle('ok', !!ok); }
+
+  /* 세션 복원을 기다린다 — 이미 로그인 상태면 바로 넘어간다 */
+  await A.ready;
+  if (A.current()) { location.replace(next); return; }
+
+  if (params.get('confirmed') === '1') {
+    msg(document.getElementById('l-msg'), '이메일 인증이 끝났습니다. 로그인해 주세요.', true);
   }
 
-  document.getElementById('do-login').addEventListener('click', function (e) {
+  if (!A.available) {
+    ['l-msg', 's-msg'].forEach(function (id) {
+      msg(document.getElementById(id), '인증 서버에 연결할 수 없습니다. 네트워크를 확인해 주세요.');
+    });
+    document.getElementById('do-login').disabled = true;
+    document.getElementById('do-signup').disabled = true;
+    return;
+  }
+
+  /* ── 로그인 ── */
+  document.getElementById('do-login').addEventListener('click', async function (e) {
     e.preventDefault();
-    var btn = this; btn.disabled = true;
-    A.login(document.getElementById('l-email').value, document.getElementById('l-pw').value)
-      .then(function (u) { S.toast(u.name + ' 님, 환영합니다'); setTimeout(function () { location.href = next; }, 500); })
-      .catch(function (err) { msg(document.getElementById('l-msg'), err.message); btn.disabled = false; });
+    var btn = this, out = document.getElementById('l-msg');
+    btn.disabled = true; btn.textContent = '확인 중…';
+    try {
+      var u = await A.login(document.getElementById('l-email').value, document.getElementById('l-pw').value);
+      S.toast(u.name ? u.name + ' 님, 환영합니다' : '로그인되었습니다');
+      setTimeout(function () { location.href = next; }, 400);
+    } catch (err) {
+      msg(out, err.message);
+      btn.disabled = false; btn.textContent = '로그인';
+    }
   });
 
-  document.getElementById('do-signup').addEventListener('click', function (e) {
+  /* ── 비밀번호 재설정 ── */
+  document.getElementById('forgot').addEventListener('click', async function (e) {
     e.preventDefault();
-    var btn = this; btn.disabled = true;
-    A.signup({
-      name: document.getElementById('s-name').value,
-      tel: document.getElementById('s-tel').value,
-      email: document.getElementById('s-email').value,
-      pw: document.getElementById('s-pw').value,
-      pw2: document.getElementById('s-pw2').value,
-      birth: document.getElementById('s-birth').value,
-      agreeTerms: document.getElementById('s-terms').checked,
-      marketing: document.getElementById('s-mkt').checked
-    })
-      .then(function (u) { S.toast(u.name + ' 님, 가입이 완료되었습니다'); setTimeout(function () { location.href = next; }, 600); })
-      .catch(function (err) { msg(document.getElementById('s-msg'), err.message); btn.disabled = false; });
+    var email = document.getElementById('l-email').value.trim();
+    var out = document.getElementById('l-msg');
+    if (!email) { msg(out, '먼저 이메일을 입력해 주세요.'); return; }
+    try {
+      await A.resetPassword(email);
+      msg(out, email + ' 으로 재설정 링크를 보냈습니다.', true);
+    } catch (err) { msg(out, err.message); }
+  });
+
+  /* ── 회원가입 ── */
+  document.getElementById('do-signup').addEventListener('click', async function (e) {
+    e.preventDefault();
+    var btn = this, out = document.getElementById('s-msg');
+    btn.disabled = true; btn.textContent = '처리 중…';
+    try {
+      var res = await A.signup({
+        name: document.getElementById('s-name').value,
+        tel: document.getElementById('s-tel').value,
+        email: document.getElementById('s-email').value,
+        pw: document.getElementById('s-pw').value,
+        pw2: document.getElementById('s-pw2').value,
+        birth: document.getElementById('s-birth').value,
+        agreeTerms: document.getElementById('s-terms').checked,
+        marketing: document.getElementById('s-mkt').checked
+      });
+      if (res.status === 'active') {
+        S.toast(res.user.name + ' 님, 가입이 완료되었습니다');
+        setTimeout(function () { location.href = next; }, 500);
+      } else {
+        document.getElementById('panel-signup').querySelectorAll('input').forEach(function (i) { i.disabled = true; });
+        btn.style.display = 'none';
+        msg(out, res.email + ' 으로 인증 메일을 보냈습니다. 메일의 링크를 누르면 가입이 완료됩니다.', true);
+      }
+    } catch (err) {
+      msg(out, err.message);
+      btn.disabled = false; btn.textContent = '가입하고 시작하기';
+    }
   });
 });
 </script>

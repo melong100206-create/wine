@@ -55,14 +55,19 @@ python -m http.server 5173 --directory web
 - **아이콘**: `python tools/gen-icons.py` — 무광 블랙에 샴페인 골드 각인(얇은 금선 원 + 명조 '송' + 포도알 세 개). PWA 192/512, maskable, apple-touch-icon 180, 파비콘 세트를 한 번에 생성합니다.
 - 배포 후 `sw.js` 의 `VERSION` 을 올리면 사용자 캐시가 갱신됩니다.
 
-## 계정
+## 계정 (Supabase Auth)
 
-소비자 계정은 `web/assets/js/auth.js`, 내부(S·P) 계정은 `web/assets/js/staff-auth.js` 가 담당합니다.
+소비자 로그인은 **Supabase Auth**(이메일 + 비밀번호)를 사용합니다. 비밀번호는 서버에서만 처리되고 브라우저에 저장되지 않습니다.
 
-- 소비자: 이메일로 가입. **만 19세 미만은 가입이 차단**되고, 비밀번호는 목업이라도 평문 대신 salt + SHA-256 해시로 보관합니다.
-- 로그인 상태면 주문서에 배송 정보가 자동으로 채워지고, 주문이 마이페이지 내역에 쌓입니다. 비회원 주문도 그대로 가능합니다.
-- 내부 데모 계정: 판매운영자 `manager` / 생산자 `farmer`, 비밀번호는 둘 다 `songsan2026`. 역할이 다른 화면은 열리지 않습니다.
-- **모두 브라우저 저장소 기반 목업입니다.** 실제 구축 시 서버 세션·본인인증(PASS)·역할 기반 권한으로 교체해야 합니다.
+- 설정: [web/assets/js/supabase-config.js](web/assets/js/supabase-config.js) 의 `url`, `key`(publishable). publishable 키는 공개되어도 되는 키이며, 실제 접근 통제는 RLS가 합니다. **service_role 키는 절대 넣지 마십시오.**
+- 스키마: [supabase/migrations/0001_songsan_auth.sql](supabase/migrations/0001_songsan_auth.sql) — Supabase SQL Editor 에 붙여넣고 Run.
+  - `songsan_profiles` — 이름·연락처·생년월일·배송지. 본인만 조회/수정 (RLS)
+  - `songsan_orders` — 주문 스냅샷. 본인만 조회, **insert만 허용(수정·삭제 정책 없음)** 이라 정산 기록이 변조되지 않습니다
+  - `songsan_enforce_adult()` 트리거 — 만 19세 미만 프로필 생성을 DB에서 차단 (폼 검증과 이중)
+- 이메일 인증이 켜져 있으면 가입 후 "인증 메일을 보냈습니다" 안내가 뜨고, 메일의 링크를 누른 뒤 로그인하면 프로필이 자동 생성됩니다. 데모용으로 끄려면 Authentication → Sign In / Providers → Email → *Confirm email* 을 해제하십시오.
+- 비밀번호 재설정 메일 발송도 로그인 탭에서 지원합니다.
+- 키가 비어 있거나 서버에 닿지 않으면 로그인 버튼이 비활성화되고 안내만 뜹니다 — 둘러보기·장바구니·**비회원 주문**은 그대로 동작합니다.
+- 내부(S·P) 화면은 아직 [staff-auth.js](web/assets/js/staff-auth.js) 목업입니다(데모 `manager` / `farmer`, 비밀번호 `songsan2026`). 실서비스 전에는 Supabase 역할 기반 권한으로 옮겨야 합니다.
 
 ## 프로토타입 범위 (아직 없는 것)
 

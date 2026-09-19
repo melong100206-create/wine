@@ -15,6 +15,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="송산언덕">
 <meta name="mobile-web-app-capable" content="yes">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js" defer></script>
 </head>
 <body data-base="./">
 
@@ -84,10 +85,11 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/card.js"></script>
+<script src="assets/js/supabase-config.js"></script>
 <script src="assets/js/auth.js"></script>
 <script src="assets/js/site.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   var S = window.SONGSAN;
   var t = S.Cart.totals();
 
@@ -98,7 +100,8 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  /* 로그인 상태면 저장된 배송 정보를 채우고, 아니면 로그인 안내를 띄운다 */
+  /* 세션 복원을 기다렸다가, 로그인 상태면 저장된 배송 정보를 채운다 */
+  await S.Auth.ready;
   var me = S.Auth.current();
   var hint = document.getElementById('auth-hint');
   if (me) {
@@ -130,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
     '<button class="btn btn-primary btn-block" id="pay" style="margin-top:28px">' + S.won(t.total) + '원 결제하기</button>' +
     '<p class="dim xsmall" style="margin-top:18px">' + S.ddayText() + ' · 출고 후 1–2일 내 도착</p>';
 
-  document.getElementById('pay').addEventListener('click', function (e) {
+  document.getElementById('pay').addEventListener('click', async function (e) {
     e.preventDefault();
     var form = document.getElementById('order-form');
     var required = ['name', 'tel', 'email', 'zip', 'addr'];
@@ -155,23 +158,36 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     try { sessionStorage.setItem('songsan.lastOrder', JSON.stringify(order)); } catch (err) {}
 
-    /* 로그인 상태면 마이페이지 주문 내역에 남긴다 */
-    var d = new Date(S.nextShipDate + 'T00:00:00');
-    S.Auth.addOrder({
-      no: order.no,
-      total: t.total,
-      summary: t.rows.map(function (r) { return r.product.name + ' ×' + r.qty; }).join(', '),
-      shipLabel: (d.getMonth() + 1) + '월 ' + d.getDate() + '일 회차 출고 예정',
-      status: '결제완료',
-      at: new Date().toISOString()
-    });
+    /* 로그인 상태면 주문을 계정에 기록하고 배송지를 갱신한다 (비회원은 건너뛴다) */
     if (me) {
-      S.Auth.update({
-        tel: document.getElementById('tel').value.trim(),
-        zip: document.getElementById('zip').value.trim(),
-        addr: document.getElementById('addr').value.trim(),
-        addr2: document.getElementById('addr2').value.trim()
-      });
+      var btn = document.getElementById('pay');
+      btn.disabled = true; btn.textContent = '주문 접수 중…';
+      try {
+        await S.Auth.addOrder({
+          no: order.no,
+          total: t.total,
+          bottles: t.bottles,
+          summary: t.rows.map(function (r) { return r.product.name + ' ×' + r.qty; }).join(', '),
+          shipDate: S.nextShipDate,
+          status: '결제완료',
+          recipient: {
+            name: document.getElementById('name').value.trim(),
+            tel: document.getElementById('tel').value.trim(),
+            zip: document.getElementById('zip').value.trim(),
+            addr: document.getElementById('addr').value.trim(),
+            addr2: document.getElementById('addr2').value.trim(),
+            memo: document.getElementById('memo').value
+          }
+        });
+        await S.Auth.update({
+          tel: document.getElementById('tel').value.trim(),
+          zip: document.getElementById('zip').value.trim(),
+          addr: document.getElementById('addr').value.trim(),
+          addr2: document.getElementById('addr2').value.trim()
+        });
+      } catch (err) {
+        S.toast('주문 기록에 실패했습니다: ' + err.message);
+      }
     }
     S.Cart.clear();
     location.href = 'order-complete.html';

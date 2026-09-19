@@ -121,6 +121,7 @@
     $$('.nav a').forEach((a) => a.addEventListener('click', () => document.body.classList.remove('nav-open')));
 
     paintAccount();
+    addEventListener('songsan:auth', paintAccount);   // 세션이 준비되거나 바뀌면 다시 그린다
 
     const hdr = $('.site-header');
     const onScroll = () => hdr.classList.toggle('scrolled', window.scrollY > 40);
