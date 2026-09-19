@@ -269,6 +269,97 @@
     return diff > 0 ? `${md} 출고 · D-${diff}` : `${md} 출고`;
   };
 
+  /* ── 도로명 주소 검색 (다음 우편번호 서비스) ───────────────── */
+  const POSTCODE_SRC = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+  let postcodeLoading = null;
+
+  function loadPostcode() {
+    if (window.daum && window.daum.Postcode) return Promise.resolve(true);
+    if (postcodeLoading) return postcodeLoading;
+    postcodeLoading = new Promise((resolve) => {
+      const sc = document.createElement('script');
+      sc.src = POSTCODE_SRC;
+      sc.async = true;
+      sc.onload = () => resolve(!!(window.daum && window.daum.Postcode));
+      sc.onerror = () => resolve(false);
+      document.head.appendChild(sc);
+    });
+    return postcodeLoading;
+  }
+
+  /**
+   * 주소 검색창을 띄우고 고른 결과를 돌려준다.
+   * @param {(addr:{zip:string, road:string, jibun:string, extra:string}) => void} onPick
+   */
+  S.findAddress = async function (onPick) {
+    const ok = await loadPostcode();
+    if (!ok) { toast('주소 검색을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.'); return false; }
+
+    /* 팝업창은 차단되거나 설치형 앱에서 어색하므로 페이지 안에 얹는다 */
+    const modal = el(`
+      <div class="addr-modal" role="dialog" aria-modal="true" aria-label="도로명 주소 검색">
+        <div class="addr-modal-box">
+          <div class="addr-modal-head">
+            <span class="eyebrow">Address</span>
+            <button class="addr-close" aria-label="닫기">닫기 ✕</button>
+          </div>
+          <div class="addr-modal-body"></div>
+        </div>
+      </div>`);
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+
+    const close = () => {
+      modal.remove();
+      document.body.style.overflow = '';
+      removeEventListener('keydown', onKey);
+    };
+    const onKey = (e) => { if (e.key === 'Escape') close(); };
+    addEventListener('keydown', onKey);
+    modal.querySelector('.addr-close').addEventListener('click', close);
+    modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+
+    new window.daum.Postcode({
+      width: '100%',
+      height: '100%',
+      oncomplete: (d) => {
+        const extra = d.buildingName ? ' (' + d.buildingName + ')' : '';
+        onPick({
+          zip: d.zonecode,
+          road: (d.roadAddress || d.address) + extra,
+          jibun: d.jibunAddress || '',
+          extra: extra
+        });
+        close();
+      }
+    }).embed(modal.querySelector('.addr-modal-body'), { autoClose: false });
+
+    return true;
+  };
+
+  /** 우편번호/주소 입력칸 한 쌍을 검색 버튼과 묶는다 */
+  S.bindAddressSearch = function (opts) {
+    const btn = $('#' + opts.button);
+    const zip = $('#' + opts.zip);
+    const addr = $('#' + opts.addr);
+    const detail = opts.detail ? $('#' + opts.detail) : null;
+    if (!btn || !zip || !addr) return;
+
+    zip.readOnly = true; addr.readOnly = true;
+    zip.placeholder = '검색'; addr.placeholder = '주소 검색을 눌러 주세요';
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      S.findAddress((a) => {
+        zip.value = a.zip;
+        addr.value = a.road;
+        if (detail) { detail.value = ''; detail.focus(); }
+        zip.dispatchEvent(new Event('change', { bubbles: true }));
+        addr.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
+  };
+
   /* ── 앱 설치 (PWA) ────────────────────────────────────────── */
   function initApp() {
     /* 서비스 워커 — file:// 로 열었을 때는 등록하지 않는다 */

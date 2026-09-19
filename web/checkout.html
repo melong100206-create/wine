@@ -42,11 +42,12 @@
           <div class="field"><label for="tel">휴대전화</label><input id="tel" class="num" required inputmode="tel" placeholder="010-0000-0000"></div>
         </div>
         <div class="field"><label for="email">이메일 (주문 내역 발송)</label><input id="email" type="email" required autocomplete="email"></div>
-        <div class="field-row">
-          <div class="field"><label for="zip">우편번호</label><input id="zip" class="num" required inputmode="numeric"></div>
-          <div class="field"><label for="addr">주소</label><input id="addr" required autocomplete="street-address"></div>
+        <div class="addr-search">
+          <div class="field"><label for="zip">우편번호</label><input id="zip" class="num" required inputmode="numeric" readonly></div>
+          <button class="btn btn-sm" id="find-addr" type="button">주소 검색</button>
         </div>
-        <div class="field"><label for="addr2">상세 주소</label><input id="addr2" autocomplete="address-line2"></div>
+        <div class="field"><label for="addr">도로명 주소</label><input id="addr" required autocomplete="street-address" readonly></div>
+        <div class="field"><label for="addr2">상세 주소</label><input id="addr2" autocomplete="address-line2" placeholder="동·호수 등"></div>
         <div class="field"><label for="memo">배송 메모</label>
           <select id="memo">
             <option>부재 시 전화 부탁드립니다</option>
@@ -99,6 +100,8 @@ document.addEventListener('DOMContentLoaded', async function () {
       '<a class="btn btn-primary" href="products.html">와인 보러 가기</a></div>';
     return;
   }
+
+  S.bindAddressSearch({ button: 'find-addr', zip: 'zip', addr: 'addr', detail: 'addr2' });
 
   /* 세션 복원을 기다렸다가, 로그인 상태면 저장된 배송 정보를 채운다 */
   await S.Auth.ready;

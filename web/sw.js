@@ -3,7 +3,10 @@
    화면은 네트워크 우선(최신 재고·출고일이 중요), 정적 자산은 캐시 우선.
    오프라인이면 offline.html 로 안내한다.
    ========================================================================== */
-const VERSION = 'songsan-v3';   // Supabase 키 반영 — 기존 설치본 캐시 무효화
+/* 로컬 개발(localhost)에서는 캐시하지 않고 항상 네트워크를 쓴다 — 고친 파일이 즉시 반영되도록 */
+const DEV = ['localhost', '127.0.0.1'].includes(self.location.hostname);
+
+const VERSION = 'songsan-v4';   // Supabase 키 반영 — 기존 설치본 캐시 무효화
 const SHELL = VERSION + '-shell';
 const RUNTIME = VERSION + '-runtime';
 
@@ -34,6 +37,7 @@ const PRECACHE = [
 ];
 
 self.addEventListener('install', (e) => {
+  if (DEV) { self.skipWaiting(); return; }
   e.waitUntil(
     caches.open(SHELL)
       .then((c) => Promise.allSettled(PRECACHE.map((u) => c.add(u))))   // 하나 실패해도 설치는 진행
@@ -50,6 +54,7 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
+  if (DEV) return;
   const req = e.request;
   if (req.method !== 'GET') return;
 

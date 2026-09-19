@@ -315,3 +315,26 @@
 }
 .install-btn:hover { background: var(--accent); color: #0D0D0D; }
 @media (max-width: 680px) { .install-btn { display: none; } }
+
+/* ── 도로명 주소 검색 ───────────────────────────────────────── */
+.addr-search { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: end; }
+.addr-search .btn { height: 51px; }
+.field input[readonly] { color: var(--text); background: rgba(255,255,255,.03); cursor: default; }
+.field input[readonly]:focus { border-color: var(--line); }
+
+.addr-modal {
+  position: fixed; inset: 0; z-index: 180; display: grid; place-items: center;
+  background: rgba(6,6,6,.82); backdrop-filter: blur(6px); padding: 20px;
+}
+.addr-modal-box {
+  width: min(520px, 100%); background: var(--surface-2);
+  border: 1px solid var(--line-strong); border-radius: var(--radius);
+  display: grid; grid-template-rows: auto 1fr; max-height: min(620px, 92vh); overflow: hidden;
+}
+.addr-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--line);
+}
+.addr-close { font-size: 11.5px; letter-spacing: .16em; color: var(--text-2); }
+.addr-close:hover { color: var(--accent); }
+.addr-modal-body { min-height: 420px; background: #fff; }   /* 검색 위젯 자체는 라이트 UI */
