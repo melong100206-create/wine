@@ -66,6 +66,10 @@ python -m http.server 5173 --directory web
   - `songsan_enforce_adult()` 트리거 — 만 19세 미만 프로필 생성을 DB에서 차단 (폼 검증과 이중)
 - 이메일 인증이 켜져 있으면 가입 후 "인증 메일을 보냈습니다" 안내가 뜨고, 메일의 링크를 누른 뒤 로그인하면 프로필이 자동 생성됩니다. 데모용으로 끄려면 Authentication → Sign In / Providers → Email → *Confirm email* 을 해제하십시오.
 - 비밀번호 재설정 메일 발송도 로그인 탭에서 지원합니다.
+- **인증 메일 링크가 제대로 돌아오려면** Supabase → Authentication → URL Configuration 에 다음을 넣어야 합니다.
+  - Site URL: `https://melong100206-create.github.io/wine/index.html`
+  - Redirect URLs: `https://melong100206-create.github.io/wine/**`, `http://localhost:5173/**`
+- Supabase 기본 SMTP 는 시간당 발송 수가 적습니다. 실사용 전에는 Authentication → Emails 에서 자체 SMTP(예: Resend)를 연결하십시오.
 - 키가 비어 있거나 서버에 닿지 않으면 로그인 버튼이 비활성화되고 안내만 뜹니다 — 둘러보기·장바구니·**비회원 주문**은 그대로 동작합니다.
 - 내부(S·P) 화면은 아직 [staff-auth.js](web/assets/js/staff-auth.js) 목업입니다(데모 `manager` / `farmer`, 비밀번호 `songsan2026`). 실서비스 전에는 Supabase 역할 기반 권한으로 옮겨야 합니다.
 
