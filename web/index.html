@@ -190,14 +190,29 @@ document.addEventListener('DOMContentLoaded', function () {
       if (conn.saveData || /2g/.test(conn.effectiveType || '')) return;
 
       v.src = v.dataset.src;
+      tryPlay();
+      /* 자동재생이 막힌 브라우저에서는 첫 상호작용 때 한 번 더 시도한다 */
+      addEventListener('pointerdown', tryPlay, { once: true, passive: true });
+    }
+
+    function tryPlay() {
+      if (!v.src || !v.paused) return;
       var play = v.play();
-      if (play && play.catch) play.catch(function () { /* 자동재생 차단 시 poster 유지 */ });
+      if (play && play.catch) play.catch(function () { /* 차단되면 poster/첫 프레임 유지 */ });
     }
 
     loadHeroVideo();
     addEventListener('resize', loadHeroVideo, { passive: true });
     document.addEventListener('visibilitychange', loadHeroVideo);
-    setTimeout(loadHeroVideo, 1200);   /* 레이아웃이 늦게 잡히는 경우 한 번 더 */
+    /* 처음엔 뷰포트 폭이 0 으로 잡히는 환경(숨겨진 탭·임베드)이 있어,
+       레이아웃이 실제로 잡히는 순간 다시 판단한다 */
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(function () {
+        loadHeroVideo();
+        if (v.src) ro.disconnect();
+      });
+      ro.observe(document.documentElement);
+    }
   }
 
   S.reveal();
