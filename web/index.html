@@ -164,20 +164,29 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     probe.src = v.getAttribute('poster');
 
-    /* 데이터를 아껴야 하는 환경에서는 영상을 받지 않는다 */
-    var conn = navigator.connection || {};
-    var heavyOk = innerWidth >= 760
-      && !matchMedia('(prefers-reduced-motion: reduce)').matches
-      && !conn.saveData
-      && !/2g/.test(conn.effectiveType || '');
+    /* 데이터를 아껴야 하는 환경에서는 영상을 받지 않는다.
+       숨겨진 탭에서는 innerWidth 가 0 으로 잡히므로 여러 값을 함께 본다. */
+    v.addEventListener('loadeddata', function () { v.classList.add('playing'); });
+    v.addEventListener('error', function () { v.classList.remove('playing'); }, true);
 
-    if (heavyOk) {
-      v.addEventListener('loadeddata', function () { v.classList.add('playing'); });
-      v.addEventListener('error', function () { v.removeAttribute('src'); v.load(); }, true);
+    function loadHeroVideo() {
+      if (v.src) return;                                   // 이미 로드함
+      var conn = navigator.connection || {};
+      var w = window.innerWidth || document.documentElement.clientWidth || (screen && screen.width) || 0;
+      if (!w) return;                                      // 아직 레이아웃 전 — 다음 기회에
+      if (w < 760) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (conn.saveData || /2g/.test(conn.effectiveType || '')) return;
+
       v.src = v.dataset.src;
-      var p = v.play();
-      if (p && p.catch) p.catch(function () { /* 자동재생 차단 시 poster 유지 */ });
+      var play = v.play();
+      if (play && play.catch) play.catch(function () { /* 자동재생 차단 시 poster 유지 */ });
     }
+
+    loadHeroVideo();
+    addEventListener('resize', loadHeroVideo, { passive: true });
+    document.addEventListener('visibilitychange', loadHeroVideo);
+    setTimeout(loadHeroVideo, 1200);   /* 레이아웃이 늦게 잡히는 경우 한 번 더 */
   }
 
   S.reveal();
