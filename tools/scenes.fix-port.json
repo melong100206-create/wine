@@ -1,0 +1,16 @@
+{
+  "width": 704,
+  "height": 896,
+  "steps": 4,
+  "texture": false,
+  "scenes": [
+    {
+      "name": "box-closed",
+      "prompt": "cinematic photorealistic product photography of a closed luxury matte black rigid gift box with a thin champagne gold foil border line, sitting on dark polished stone, soft directional key light from upper left revealing the matte texture, dark charcoal background, premium unboxing aesthetic, shot on 85mm lens, well exposed low-key studio lighting, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark"
+    },
+    {
+      "name": "bottle-rose",
+      "prompt": "cinematic photorealistic product photography of one clear glass bottle filled with pale rose pink wine, plain unlabeled blank ivory paper label, soft pink capsule, standing on a black reflective surface, soft key light from above making the pink wine glow, dark charcoal background, delicate light refraction through the glass, shot on 85mm lens, well exposed low-key studio lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark"
+    }
+  ]
+}

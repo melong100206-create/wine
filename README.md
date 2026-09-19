@@ -35,10 +35,10 @@ python -m http.server 5173 --directory web
 
 ## 이미지
 
-- `web/assets/img/photo/*.png` — 실사 톤 이미지(로컬 ComfyUI/Flux 생성). 히어로·상품·패키지·발효실·페어링.
-- `web/assets/img/*.svg` — 폴백. 위 PNG가 없으면 자동으로 이 SVG가 표시됩니다(`site.js`의 `img()`).
-- 재생성: `node tools/gen-placeholders.mjs` (SVG) / `python <script-to-images 스킬>/scripts/gen_images.py tools/scenes.landscape.json web/assets/img/photo` (실사)
-- **전문 촬영본이 준비되면**(설계도 Q11) 같은 파일명의 PNG/WEBP로 덮어쓰면 코드 수정 없이 교체됩니다.
+- `web/assets/img/photo/*.webp` — 실사 이미지(로컬 ComfyUI/Flux 생성 후 WebP 변환). 히어로·병 4종·패키지 2종·발효실·수확·페어링 3컷 등 15컷. 원본 PNG는 `photo/_src/`에 두고 git 에서는 제외.
+- `web/assets/img/*.svg` — 폴백. 위 WebP가 없으면 자동으로 이 SVG가 표시됩니다(`site.js`의 `img()`).
+- 재생성: `node tools/gen-placeholders.mjs` (SVG) / `python tools/queue_and_harvest.py submit tools/scenes.left-pair.json` → 렌더 후 `harvest` → `python tools/optimize-photos.py` (실사)
+- **전문 촬영본이 준비되면**(설계도 Q11) 같은 파일명의 .webp 로 덮어쓰면 코드 수정 없이 교체됩니다. (PNG를 넣고 `python tools/optimize-photos.py` 를 돌리면 변환됩니다.)
 - 히어로 영상: `web/assets/video/hero.mp4` 를 넣으면 자동 재생되고, 없으면 poster 이미지가 노출됩니다.
 
 ## 프로토타입 범위 (아직 없는 것)

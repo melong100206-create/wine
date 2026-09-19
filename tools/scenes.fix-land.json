@@ -1,0 +1,16 @@
+{
+  "width": 896,
+  "height": 512,
+  "steps": 4,
+  "texture": false,
+  "scenes": [
+    {
+      "name": "hero",
+      "prompt": "cinematic photorealistic wide establishing shot of a vineyard at blue hour dusk, long rows of grape vines clearly visible receding toward distant hills, deep indigo and burgundy twilight sky with soft glowing clouds, warm amber lanterns glowing between the rows, light mist drifting low, balanced exposure with clear visible detail in the vines and sky, shot on 35mm lens, shallow depth of field, elegant moody but well lit, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "hero-pour",
+      "prompt": "photorealistic close-up of dark red wine being poured into a crystal glass, bright focused key light on the glass making the ruby liquid glow, dark charcoal background with soft gradient, swirling wine and delicate droplets, well exposed with clear detail, shot on 100mm macro lens, shallow depth of field, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "width": 704,
+  "height": 896,
+  "steps": 4,
+  "texture": false,
+  "scenes": [
+    {
+      "name": "craft-hands",
+      "prompt": "photorealistic black and white close-up photograph of weathered elderly farmer hands gently holding a cluster of wine grapes over a wooden crate, deep wrinkles and soil under the nails, single soft side light, dark background, documentary heritage craftsmanship mood, shot on 50mm lens, shallow depth of field, high contrast monochrome, heavy film grain, ultra detailed, no text, no logo, no watermark"
+    }
+  ]
+}

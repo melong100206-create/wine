@@ -1,0 +1,19 @@
+{
+  "width": 896,
+  "height": 704,
+  "steps": 4,
+  "scenes": [
+    {
+      "name": "pair-1",
+      "prompt": "cinematic photorealistic fine dining food photography, thinly sliced medium rare grilled Korean beef on a matte black ceramic plate with charred edges, a glass of dark red wine blurred in the background, single warm pin spotlight, near black table, shot on 85mm lens, shallow depth of field, moody well exposed low-key restaurant lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "pair-2",
+      "prompt": "cinematic photorealistic fine dining food photography, crisp skin duck breast fanned on a dark slate plate with a glossy dark berry reduction, microgreens, single warm pin spotlight, near black table, wine glass silhouette blurred behind, shot on 85mm lens, shallow depth of field, moody well exposed low-key restaurant lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "pair-3",
+      "prompt": "cinematic photorealistic food photography, aged hard cheese wedges, fresh halved figs and walnuts on a dark wooden board, honey drizzle catching light, single warm pin spotlight, near black background, shot on 85mm lens, shallow depth of field, moody well exposed low-key lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    }
+  ]
+}

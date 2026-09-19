@@ -16,7 +16,7 @@
 
   /** 실사(AI/촬영) 이미지 우선, 없으면 SVG 플레이스홀더로 자동 폴백 */
   function img(photo, svg, alt, cls) {
-    const p = photo ? `${BASE}assets/img/photo/${photo}.png` : `${BASE}assets/img/${svg}`;
+    const p = photo ? `${BASE}assets/img/photo/${photo}.webp` : `${BASE}assets/img/${svg}`;
     const fb = `${BASE}assets/img/${svg}`;
     return `<img class="${cls || ''}" src="${p}" alt="${alt || ''}" loading="lazy" decoding="async"
       onerror="this.onerror=null;this.src='${fb}'">`;

@@ -1,0 +1,16 @@
+{
+  "width": 896,
+  "height": 512,
+  "steps": 4,
+  "texture": false,
+  "scenes": [
+    {
+      "name": "story-wide",
+      "prompt": "cinematic photorealistic wide landscape photograph of a Korean hillside vineyard at dawn, low mist over the grape rows, soft dark blue and deep burgundy tones, distant mountain ridges, no people, shot on 35mm lens, moody atmospheric grade, deep shadows, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "farm-tour",
+      "prompt": "cinematic photorealistic photograph of a private evening vineyard tasting table set among grape vines at golden hour turning to blue dusk, two wine glasses and a dark bottle on a rustic wooden table, warm string lights bokeh, hills of Korea in the far background, shot on 50mm lens, shallow depth of field, warm cinematic grade, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    }
+  ]
+}
