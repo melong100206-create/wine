@@ -110,6 +110,7 @@
         </a>
         <nav class="nav">${nav}</nav>
         <div class="header-actions">
+          <span id="install-slot"></span>
           <span id="account-slot"></span>
           <a class="cart-btn" href="${BASE}cart.html">장바구니 <span class="cart-count" data-empty="true">0</span></a>
           <button class="menu-toggle" aria-label="메뉴"><span></span><span></span></button>
@@ -153,6 +154,14 @@
                 <a href="${BASE}admin/login.html">판매운영자 콘솔</a>
                 <a href="${BASE}admin/login.html">생산자 발주 화면</a>
                 <span class="dim small">내부용 · 로그인 필요</span>
+              </div>
+            </div>
+            <div>
+              <h4>App</h4>
+              <div class="footer-list">
+                <span class="small">홈 화면에 추가하면 앱처럼 전체 화면으로 열리고, 한 번 본 화면은 오프라인에서도 보입니다.</span>
+                <span class="dim xsmall">iPhone · Safari 공유 <b>⇧</b> → 홈 화면에 추가</span>
+                <span class="dim xsmall">Android · Chrome 메뉴 → 앱 설치</span>
               </div>
             </div>
             <div>
@@ -259,10 +268,43 @@
     return diff > 0 ? `${md} 출고 · D-${diff}` : `${md} 출고`;
   };
 
+  /* ── 앱 설치 (PWA) ────────────────────────────────────────── */
+  function initApp() {
+    /* 서비스 워커 — file:// 로 열었을 때는 등록하지 않는다 */
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      addEventListener('load', function () {
+        navigator.serviceWorker.register(BASE + 'sw.js', { scope: BASE })
+          .catch(function () { /* 등록 실패해도 사이트는 그대로 동작한다 */ });
+      });
+    }
+
+    /* 설치 버튼은 브라우저가 설치 가능하다고 알려줄 때만 나타난다 */
+    let deferred = null;
+    addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      deferred = e;
+      const slot = $('#install-slot');
+      if (!slot) return;
+      slot.innerHTML = '<button class="install-btn" title="홈 화면에 설치">앱 설치</button>';
+      slot.querySelector('button').addEventListener('click', async function () {
+        slot.innerHTML = '';
+        deferred.prompt();
+        const res = await deferred.userChoice;
+        deferred = null;
+        if (res && res.outcome === 'accepted') toast('홈 화면에 추가했습니다');
+      });
+    });
+    addEventListener('appinstalled', function () {
+      const slot = $('#install-slot');
+      if (slot) slot.innerHTML = '';
+      toast('앱이 설치되었습니다');
+    });
+  }
+
   /* ── 부팅 ─────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', () => {
     if (!document.body.hasAttribute('data-bare')) { mountHeader(); mountFooter(); }
-    paintCount(); reveal(); parallax(); gauges();
+    paintCount(); reveal(); parallax(); gauges(); initApp();
     if (!document.body.hasAttribute('data-no-agegate')) ageGate();
   });
 })();

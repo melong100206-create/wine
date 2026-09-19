@@ -172,7 +172,7 @@ body.nav-open .menu-toggle span:nth-child(2) { transform: translateY(-7px) rotat
 
 /* ── Footer ─────────────────────────────────────────────────── */
 .site-footer { border-top: 1px solid var(--line); background: var(--surface-2); padding-block: clamp(60px, 8vw, 110px) 44px; }
-.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 48px; }
+.footer-grid { display: grid; grid-template-columns: 1.3fr .8fr .9fr 1.1fr 1.1fr; gap: 40px; }
 .footer-grid h4 { font-family: var(--font-num); font-size: 10.5px; letter-spacing: .3em; color: var(--accent); text-transform: uppercase; margin-bottom: 20px; }
 .footer-grid a, .footer-grid p { font-size: 13px; color: var(--text-2); }
 .footer-grid a:hover { color: var(--text); }
@@ -200,6 +200,7 @@ body.nav-open .menu-toggle span:nth-child(2) { transform: translateY(-7px) rotat
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .spacer-header { height: 104px; }
 
+@media (max-width: 1080px) { .footer-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 900px) {
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
   .menu-toggle { display: block; }

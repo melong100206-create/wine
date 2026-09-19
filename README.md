@@ -44,6 +44,17 @@ python -m http.server 5173 --directory web
 - **전문 촬영본이 준비되면**(설계도 Q11) 같은 파일명의 .webp 로 덮어쓰면 코드 수정 없이 교체됩니다. (PNG를 넣고 `python tools/optimize-photos.py` 를 돌리면 변환됩니다.)
 - 히어로 영상: `web/assets/video/hero.mp4` 를 넣으면 자동 재생되고, 없으면 poster 이미지가 노출됩니다.
 
+## 앱 (PWA)
+
+`web/manifest.webmanifest` + `web/sw.js` 로 설치 가능한 앱입니다.
+
+- 홈 화면에 추가하면 주소창 없는 전체 화면(standalone)으로 열리고, 한 번 본 화면은 오프라인에서도 보입니다.
+- 캐시 전략: 화면 이동은 네트워크 우선(재고·출고일이 최신이어야 하므로) → 실패 시 캐시 → `offline.html`. 정적 자산은 캐시 우선 + 백그라운드 갱신.
+- 바로가기(길게 누르기): 이번 회차 와인 / 장바구니 / 체험농장.
+- 설치 버튼은 브라우저가 설치 가능 신호를 줄 때만 헤더에 나타납니다. iOS는 Safari 공유 → 홈 화면에 추가(푸터에 안내).
+- **아이콘**: `python tools/gen-icons.py` — 무광 블랙에 샴페인 골드 각인(얇은 금선 원 + 명조 '송' + 포도알 세 개). PWA 192/512, maskable, apple-touch-icon 180, 파비콘 세트를 한 번에 생성합니다.
+- 배포 후 `sw.js` 의 `VERSION` 을 올리면 사용자 캐시가 갱신됩니다.
+
 ## 계정
 
 소비자 계정은 `web/assets/js/auth.js`, 내부(S·P) 계정은 `web/assets/js/staff-auth.js` 가 담당합니다.

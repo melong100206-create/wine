@@ -305,3 +305,13 @@
 .user-chip:hover { color: var(--accent); }
 .user-chip .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 @media (max-width: 560px) { .user-chip .u-name { display: none; } }
+
+/* ── 앱 설치 버튼 ───────────────────────────────────────────── */
+.install-btn {
+  border: 1px solid var(--accent-dim); color: var(--accent);
+  padding: 7px 14px; border-radius: var(--radius);
+  font-size: 11px; letter-spacing: .18em; white-space: nowrap;
+  transition: background .4s var(--ease), color .4s var(--ease);
+}
+.install-btn:hover { background: var(--accent); color: #0D0D0D; }
+@media (max-width: 680px) { .install-btn { display: none; } }
