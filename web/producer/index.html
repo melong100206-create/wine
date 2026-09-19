@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>오늘 담을 것 · 송산언덕 포도원</title>
 <link rel="stylesheet" href="../assets/css/admin.css">
+<script src="../assets/js/staff-auth.js"></script>
+<script>if(!window.SONGSAN_STAFF.current()) location.replace("../admin/login.html?next=index.html");</script>
 </head>
 <body>
 
 <div class="a-top">
   <div class="brand">송산언덕 포도원 <span class="role p">P · 생산자</span></div>
-  <nav><a class="on" href="index.html">오늘 담을 것</a><a href="#hist">지난 회차</a></nav>
+  <nav><a class="on" href="index.html">오늘 담을 것</a><a href="#hist">지난 회차</a><a href="#" id="signout">로그아웃</a></nav>
 </div>
 
 <div class="a-wrap" style="max-width:820px">
@@ -49,6 +51,9 @@
 </div>
 
 <script>
+window.SONGSAN_STAFF.guard("p", "../admin/login.html");
+document.getElementById("signout").onclick = function (e) { e.preventDefault(); window.SONGSAN_STAFF.logout(); location.href = "../admin/login.html"; };
+
 const TASKS = [
   { n: '캠벨 얼리 드라이', s: '750ml · 일반 박스', q: 54, done: false },
   { n: '머스캣 베일리 에이', s: '750ml · 일반 박스', q: 38, done: false },

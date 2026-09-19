@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>판매운영자 콘솔 · 송산언덕</title>
 <link rel="stylesheet" href="../assets/css/admin.css">
+<script src="../assets/js/staff-auth.js"></script>
+<script>if(!window.SONGSAN_STAFF.current()) location.replace("login.html?next=index.html");</script>
 </head>
 <body>
 
@@ -13,8 +15,9 @@
   <nav>
     <a class="on" href="index.html">주문·발주</a>
     <a href="#settle">정산</a>
-    <a href="../producer/index.html">생산자 화면</a>
+    <a href="login.html">생산자 화면 (계정 전환)</a>
     <a href="../index.html">소비자 사이트</a>
+    <a href="#" id="signout">로그아웃</a>
   </nav>
 </div>
 
@@ -100,6 +103,9 @@
 </div>
 
 <script>
+const STAFF = window.SONGSAN_STAFF.guard("s", "login.html");
+document.getElementById("signout").onclick = function (e) { e.preventDefault(); window.SONGSAN_STAFF.logout(); location.href = "login.html"; };
+
 const ORDERS = [
   { no: 'SH260920-4821', to: '김○○', items: '캠벨 2 · MBA 1', amt: 61000, st: 'paid' },
   { no: 'SH260920-4820', to: '이○○', items: '한정 1', amt: 42500, st: 'paid' },

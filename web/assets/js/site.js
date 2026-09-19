@@ -57,6 +57,17 @@
   };
   S.Cart = Cart;
 
+  /** 로그인 상태에 따라 헤더 우측을 바꾼다 */
+  function paintAccount() {
+    const slot = $('#account-slot');
+    if (!slot) return;
+    const u = S.Auth && S.Auth.current();
+    slot.innerHTML = u
+      ? `<a class="user-chip" href="${BASE}account.html" title="마이페이지"><i class="dot"></i><span class="u-name">${u.name} 님</span></a>`
+      : `<a class="user-chip" href="${BASE}login.html">로그인</a>`;
+  }
+  S.paintAccount = paintAccount;
+
   function paintCount() {
     const n = Cart.read().reduce((a, i) => a + i.qty, 0);
     $$('.cart-count').forEach((c) => { c.textContent = n; c.dataset.empty = n === 0; });
@@ -99,6 +110,7 @@
         </a>
         <nav class="nav">${nav}</nav>
         <div class="header-actions">
+          <span id="account-slot"></span>
           <a class="cart-btn" href="${BASE}cart.html">장바구니 <span class="cart-count" data-empty="true">0</span></a>
           <button class="menu-toggle" aria-label="메뉴"><span></span><span></span></button>
         </div>
@@ -106,6 +118,8 @@
 
     $('.menu-toggle').addEventListener('click', () => document.body.classList.toggle('nav-open'));
     $$('.nav a').forEach((a) => a.addEventListener('click', () => document.body.classList.remove('nav-open')));
+
+    paintAccount();
 
     const hdr = $('.site-header');
     const onScroll = () => hdr.classList.toggle('scrolled', window.scrollY > 40);
@@ -136,8 +150,8 @@
             <div>
               <h4>Operation</h4>
               <div class="footer-list">
-                <a href="${BASE}admin/index.html">판매운영자 콘솔</a>
-                <a href="${BASE}producer/index.html">생산자 발주 화면</a>
+                <a href="${BASE}admin/login.html">판매운영자 콘솔</a>
+                <a href="${BASE}admin/login.html">생산자 발주 화면</a>
                 <span class="dim small">내부용 · 로그인 필요</span>
               </div>
             </div>

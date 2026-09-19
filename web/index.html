@@ -14,12 +14,9 @@
 <!-- ══ C-01 히어로 ═══════════════════════════════════════════ -->
 <section class="hero">
   <div class="hero-media">
-    <!-- 실사 영상 준비 시 assets/video/hero.mp4 를 넣으면 자동 재생, 없으면 poster 이미지로 노출 -->
-    <video autoplay muted loop playsinline preload="none"
-           poster="assets/img/photo/hero.webp"
-           onerror="this.replaceWith(Object.assign(new Image(),{src:'assets/img/hero.svg',className:'hero-fallback'}))">
-      <source src="assets/video/hero.mp4" type="video/mp4">
-    </video>
+    <!-- 영상 소스는 스크립트가 붙인다: 모바일·데이터 절약·모션 축소 설정에서는 포스터만 노출 -->
+    <video id="hero-video" autoplay muted loop playsinline preload="auto"
+           poster="assets/img/photo/hero.webp" data-src="assets/video/hero.mp4"></video>
   </div>
 
   <div class="hero-inner wrap">
@@ -135,6 +132,7 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/card.js"></script>
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/site.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -154,9 +152,10 @@ document.addEventListener('DOMContentLoaded', function () {
       return S.card(p, i);
     }).join('');
 
-  /* 히어로: 실사 poster 가 없으면 SVG 폴백으로 교체 */
-  var v = document.querySelector('.hero-media video');
+  /* 히어로 영상 */
+  var v = document.getElementById('hero-video');
   if (v) {
+    /* poster 조차 없으면 SVG 플레이스홀더로 교체 */
     var probe = new Image();
     probe.onerror = function () {
       v.replaceWith(Object.assign(new Image(), {
@@ -164,6 +163,21 @@ document.addEventListener('DOMContentLoaded', function () {
       }));
     };
     probe.src = v.getAttribute('poster');
+
+    /* 데이터를 아껴야 하는 환경에서는 영상을 받지 않는다 */
+    var conn = navigator.connection || {};
+    var heavyOk = innerWidth >= 760
+      && !matchMedia('(prefers-reduced-motion: reduce)').matches
+      && !conn.saveData
+      && !/2g/.test(conn.effectiveType || '');
+
+    if (heavyOk) {
+      v.addEventListener('loadeddata', function () { v.classList.add('playing'); });
+      v.addEventListener('error', function () { v.removeAttribute('src'); v.load(); }, true);
+      v.src = v.dataset.src;
+      var p = v.play();
+      if (p && p.catch) p.catch(function () { /* 자동재생 차단 시 poster 유지 */ });
+    }
   }
 
   S.reveal();

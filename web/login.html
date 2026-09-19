@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로그인 · 송산언덕 포도원</title>
+<meta name="theme-color" content="#0D0D0D">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/consumer.css">
+</head>
+<body data-base="./">
+
+<header class="page-head wrap">
+  <div class="breadcrumb"><a href="index.html">HOME</a> · ACCOUNT</div>
+  <h1 class="t-h1" id="page-title">로그인</h1>
+  <p class="muted" style="max-width:46ch;margin-top:18px">
+    주문 내역과 배송지를 저장해 두면 다음 회차 출고 때 더 빠르게 받아보실 수 있습니다.
+  </p>
+</header>
+
+<main class="section wrap">
+  <div class="auth-layout">
+    <div>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" data-tab="login" aria-selected="true">로그인</button>
+        <button class="tab" role="tab" data-tab="signup" aria-selected="false">회원가입</button>
+      </div>
+
+      <!-- 로그인 -->
+      <form class="stack" id="panel-login" style="margin-top:40px">
+        <div class="field">
+          <label for="l-email">이메일</label>
+          <input id="l-email" type="email" autocomplete="email" placeholder="name@example.com">
+        </div>
+        <div class="field">
+          <label for="l-pw">비밀번호</label>
+          <input id="l-pw" type="password" autocomplete="current-password">
+        </div>
+        <p class="auth-msg" id="l-msg" hidden></p>
+        <button class="btn btn-primary btn-block" id="do-login">로그인</button>
+        <p class="dim xsmall center" style="margin-top:6px">
+          계정이 없으시면 위의 <b>회원가입</b> 탭에서 만드실 수 있습니다.
+        </p>
+      </form>
+
+      <!-- 회원가입 -->
+      <form class="stack" id="panel-signup" style="margin-top:40px" hidden>
+        <div class="field-row">
+          <div class="field"><label for="s-name">이름</label><input id="s-name" autocomplete="name"></div>
+          <div class="field"><label for="s-tel">휴대전화</label><input id="s-tel" class="num" inputmode="tel" placeholder="010-0000-0000"></div>
+        </div>
+        <div class="field">
+          <label for="s-email">이메일 (아이디)</label>
+          <input id="s-email" type="email" autocomplete="email" placeholder="name@example.com">
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="s-pw">비밀번호 (8자 이상)</label><input id="s-pw" type="password" autocomplete="new-password"></div>
+          <div class="field"><label for="s-pw2">비밀번호 확인</label><input id="s-pw2" type="password" autocomplete="new-password"></div>
+        </div>
+        <div class="field">
+          <label for="s-birth">생년월일 — 성인 확인용</label>
+          <input id="s-birth" type="date" class="num">
+        </div>
+        <label class="check"><input type="checkbox" id="s-terms">
+          <span>이용약관 및 개인정보 수집·이용(주문 처리·배송 목적)에 동의하며, 만 19세 이상임을 확인합니다. <b>(필수)</b></span></label>
+        <label class="check"><input type="checkbox" id="s-mkt">
+          <span>다음 회차 출고 소식을 문자로 받겠습니다. (선택)</span></label>
+        <p class="auth-msg" id="s-msg" hidden></p>
+        <button class="btn btn-primary btn-block" id="do-signup">가입하고 시작하기</button>
+        <p class="dim xsmall" style="line-height:1.9">
+          「청소년 보호법」에 따라 만 19세 미만은 가입·구매가 제한되며, 배송 수령 시 신분증으로 성인 여부를 한 번 더 확인합니다.
+        </p>
+      </form>
+    </div>
+
+    <aside class="auth-aside">
+      <span class="eyebrow">Members</span>
+      <h2 class="t-h3" style="margin:22px 0 18px">회원이 되시면</h2>
+      <ul class="auth-perks">
+        <li>주문·배송 상태를 한곳에서 확인</li>
+        <li>배송지·연락처 자동 입력</li>
+        <li>한정 회차 <b>선공개 안내</b> — 삼백 병이 열리기 전에</li>
+        <li>체험농장 초청 우선 예약</li>
+      </ul>
+      <p class="dim xsmall" style="margin-top:28px;line-height:1.9">
+        프로토타입 안내 · 계정 정보는 이 브라우저에만 저장되며 서버로 전송되지 않습니다.
+        비밀번호는 salt + SHA-256 해시로 보관합니다.
+      </p>
+    </aside>
+  </div>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.SONGSAN, A = S.Auth;
+  var params = new URLSearchParams(location.search);
+  var next = params.get('next') || 'account.html';
+
+  if (A.current()) { location.replace(next); return; }
+
+  var panels = { login: document.getElementById('panel-login'), signup: document.getElementById('panel-signup') };
+  function show(tab) {
+    Object.keys(panels).forEach(function (k) { panels[k].hidden = k !== tab; });
+    document.querySelectorAll('.tab').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.tab === tab); });
+    document.getElementById('page-title').textContent = tab === 'login' ? '로그인' : '회원가입';
+  }
+  document.querySelectorAll('.tab').forEach(function (b) {
+    b.addEventListener('click', function () { show(b.dataset.tab); });
+  });
+  if (params.get('tab') === 'signup') show('signup');
+
+  function msg(el, text, ok) {
+    el.hidden = false;
+    el.textContent = text;
+    el.classList.toggle('ok', !!ok);
+  }
+
+  document.getElementById('do-login').addEventListener('click', function (e) {
+    e.preventDefault();
+    var btn = this; btn.disabled = true;
+    A.login(document.getElementById('l-email').value, document.getElementById('l-pw').value)
+      .then(function (u) { S.toast(u.name + ' 님, 환영합니다'); setTimeout(function () { location.href = next; }, 500); })
+      .catch(function (err) { msg(document.getElementById('l-msg'), err.message); btn.disabled = false; });
+  });
+
+  document.getElementById('do-signup').addEventListener('click', function (e) {
+    e.preventDefault();
+    var btn = this; btn.disabled = true;
+    A.signup({
+      name: document.getElementById('s-name').value,
+      tel: document.getElementById('s-tel').value,
+      email: document.getElementById('s-email').value,
+      pw: document.getElementById('s-pw').value,
+      pw2: document.getElementById('s-pw2').value,
+      birth: document.getElementById('s-birth').value,
+      agreeTerms: document.getElementById('s-terms').checked,
+      marketing: document.getElementById('s-mkt').checked
+    })
+      .then(function (u) { S.toast(u.name + ' 님, 가입이 완료되었습니다'); setTimeout(function () { location.href = next; }, 600); })
+      .catch(function (err) { msg(document.getElementById('s-msg'), err.message); btn.disabled = false; });
+  });
+});
+</script>
+</body>
+</html>

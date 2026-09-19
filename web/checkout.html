@@ -24,6 +24,8 @@
 
   <form class="cart-layout" id="order-form" novalidate>
     <div class="stack-lg">
+      <div id="auth-hint"></div>
+
       <section class="stack">
         <span class="eyebrow">Recipient</span>
         <div class="field-row">
@@ -74,6 +76,7 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/card.js"></script>
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/site.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -85,6 +88,25 @@ document.addEventListener('DOMContentLoaded', function () {
       '<div class="empty"><h2 class="t-h2">주문할 상품이 없습니다</h2>' +
       '<a class="btn btn-primary" href="products.html">와인 보러 가기</a></div>';
     return;
+  }
+
+  /* 로그인 상태면 저장된 배송 정보를 채우고, 아니면 로그인 안내를 띄운다 */
+  var me = S.Auth.current();
+  var hint = document.getElementById('auth-hint');
+  if (me) {
+    [['name','name'],['tel','tel'],['email','email'],['zip','zip'],['addr','addr'],['addr2','addr2']]
+      .forEach(function (pair) {
+        var el = document.getElementById(pair[0]);
+        if (el && !el.value && me[pair[1]]) el.value = me[pair[1]];
+      });
+    hint.innerHTML =
+      '<div class="auth-msg ok" style="margin-bottom:8px">' + me.name + ' 님으로 주문합니다. ' +
+      '저장된 배송 정보를 불러왔습니다. · <a href="account.html" style="text-decoration:underline">마이페이지</a></div>';
+  } else {
+    hint.innerHTML =
+      '<div class="auth-msg ok" style="margin-bottom:8px">' +
+      '<a href="login.html?next=checkout.html" style="text-decoration:underline">로그인</a> 하시면 배송 정보가 자동으로 채워지고 ' +
+      '주문 내역이 저장됩니다. 비회원으로도 주문하실 수 있습니다.</div>';
   }
 
   document.getElementById('summary').innerHTML =
@@ -115,13 +137,34 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
     var order = {
-      no: 'SH' + new Date().toISOString().slice(2, 10).replace(/-/g, '') + '-' + String(Math.floor(Math.random() * 9000) + 1000),
+      no: 'SH' + (function (d) {  /* UTC 가 아니라 한국 현지 날짜 기준 */
+        return String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+      })(new Date()) + '-' + String(Math.floor(Math.random() * 9000) + 1000),
       name: document.getElementById('name').value.trim(),
       total: t.total,
       bottles: t.bottles,
       ship: S.nextShipDate
     };
     try { sessionStorage.setItem('songsan.lastOrder', JSON.stringify(order)); } catch (err) {}
+
+    /* 로그인 상태면 마이페이지 주문 내역에 남긴다 */
+    var d = new Date(S.nextShipDate + 'T00:00:00');
+    S.Auth.addOrder({
+      no: order.no,
+      total: t.total,
+      summary: t.rows.map(function (r) { return r.product.name + ' ×' + r.qty; }).join(', '),
+      shipLabel: (d.getMonth() + 1) + '월 ' + d.getDate() + '일 회차 출고 예정',
+      status: '결제완료',
+      at: new Date().toISOString()
+    });
+    if (me) {
+      S.Auth.update({
+        tel: document.getElementById('tel').value.trim(),
+        zip: document.getElementById('zip').value.trim(),
+        addr: document.getElementById('addr').value.trim(),
+        addr2: document.getElementById('addr2').value.trim()
+      });
+    }
     S.Cart.clear();
     location.href = 'order-complete.html';
   });

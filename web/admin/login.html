@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>내부 로그인 · 송산언덕</title>
+<link rel="stylesheet" href="../assets/css/admin.css">
+<style>
+  .staff-login { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+  .staff-box { width: 100%; max-width: 420px; background: var(--a-surface); border: 1px solid var(--a-line); border-radius: 4px; padding: 36px 32px; }
+  .staff-box h1 { font-size: 19px; margin: 0 0 6px; }
+  .staff-box p.sub { margin: 0 0 26px; color: var(--a-text-2); font-size: 13px; }
+  .sf { display: grid; gap: 8px; margin-bottom: 16px; }
+  .sf label { font-size: 12px; color: var(--a-text-2); }
+  .sf input, .sf select { padding: 12px 14px; border: 1px solid var(--a-line); border-radius: 3px; background: #fff; font: inherit; width: 100%; }
+  .sf input:focus, .sf select:focus { outline: none; border-color: var(--a-text); }
+  .err { background: #FBF2F2; border: 1px solid #E6C3C3; color: #9A2B2B; padding: 11px 14px; border-radius: 3px; font-size: 13px; margin-bottom: 14px; }
+</style>
+</head>
+<body>
+<div class="staff-login">
+  <form class="staff-box" id="form">
+    <h1>송산언덕 운영 시스템</h1>
+    <p class="sub">판매운영자 · 생산자 전용 화면입니다.</p>
+
+    <div id="err"></div>
+
+    <div class="sf">
+      <label for="id">아이디</label>
+      <input id="id" autocomplete="username" placeholder="manager 또는 farmer">
+    </div>
+    <div class="sf">
+      <label for="pw">비밀번호</label>
+      <input id="pw" type="password" autocomplete="current-password">
+    </div>
+
+    <button class="a-btn primary lg" id="go">로그인</button>
+
+    <p class="note" style="margin-top:18px">
+      프로토타입 데모 계정 — 판매운영자 <b>manager</b> / 생산자 <b>farmer</b>, 비밀번호는 둘 다 <b>songsan2026</b>.
+      실제 구축 시 서버 인증과 역할 기반 권한으로 교체됩니다.
+    </p>
+    <p style="margin-top:14px;font-size:12.5px"><a href="../index.html" style="color:var(--a-text-2)">← 소비자 사이트로</a></p>
+  </form>
+</div>
+
+<script src="../assets/js/staff-auth.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var Staff = window.SONGSAN_STAFF;
+  var next = new URLSearchParams(location.search).get('next');
+
+  document.getElementById('go').addEventListener('click', function (e) {
+    e.preventDefault();
+    try {
+      var a = Staff.login(document.getElementById('id').value, document.getElementById('pw').value);
+      location.href = next && next.indexOf('http') !== 0
+        ? (a.role === 's' ? './' + next : '../producer/' + next)
+        : (a.role === 's' ? 'index.html' : '../producer/index.html');
+    } catch (err) {
+      document.getElementById('err').innerHTML = '<div class="err">' + err.message + '</div>';
+    }
+  });
+});
+</script>
+</body>
+</html>

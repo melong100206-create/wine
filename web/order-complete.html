@@ -16,6 +16,7 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/card.js"></script>
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/site.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -44,7 +45,10 @@ document.addEventListener('DOMContentLoaded', function () {
       '<span class="badge">주문번호 ' + o.no + '</span>' +
     '</div>' +
     '<div class="row" style="justify-content:center;gap:14px;margin-top:44px;flex-wrap:wrap">' +
-      '<a class="btn btn-gold" href="experience.html">체험농장 초청받기</a>' +
+      (S.Auth.current()
+        ? '<a class="btn btn-gold" href="account.html">주문 내역 보기</a>'
+        : '<a class="btn btn-gold" href="login.html?tab=signup">가입하고 주문 내역 저장하기</a>') +
+      '<a class="btn" href="experience.html">체험농장 초청받기</a>' +
       '<a class="btn" href="index.html">홈으로</a>' +
     '</div>' +
     '<p class="dim xsmall" style="margin-top:38px;max-width:44ch;margin-inline:auto">' +

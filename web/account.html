@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>마이페이지 · 송산언덕 포도원</title>
+<meta name="theme-color" content="#0D0D0D">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/consumer.css">
+</head>
+<body data-base="./">
+
+<header class="page-head wrap">
+  <div class="breadcrumb"><a href="index.html">HOME</a> · MY PAGE</div>
+  <div class="sec-head split" style="margin-bottom:0">
+    <div class="stack-sm">
+      <h1 class="t-h1" id="hello">—</h1>
+      <p id="sub" class="muted"></p>
+    </div>
+    <button class="btn btn-sm" id="logout">로그아웃</button>
+  </div>
+</header>
+
+<main class="section wrap">
+  <div class="cart-layout">
+    <section>
+      <div class="sec-head"><span class="eyebrow">Orders</span><h2 class="t-h2">주문 내역</h2></div>
+      <div id="orders"></div>
+    </section>
+
+    <aside class="summary">
+      <span class="eyebrow">Profile</span>
+      <form class="stack" style="margin-top:24px" id="profile">
+        <div class="field"><label for="p-name">이름</label><input id="p-name"></div>
+        <div class="field"><label for="p-tel">휴대전화</label><input id="p-tel" class="num" inputmode="tel"></div>
+        <div class="field-row">
+          <div class="field"><label for="p-zip">우편번호</label><input id="p-zip" class="num" inputmode="numeric"></div>
+          <div class="field"><label for="p-addr">주소</label><input id="p-addr"></div>
+        </div>
+        <div class="field"><label for="p-addr2">상세 주소</label><input id="p-addr2"></div>
+        <label class="check"><input type="checkbox" id="p-mkt"> <span>출고 소식 문자 수신</span></label>
+        <button class="btn btn-gold btn-block" id="save">저장</button>
+      </form>
+      <p class="dim xsmall" style="margin-top:20px;line-height:1.9">
+        저장해 두시면 주문서에 자동으로 채워집니다. 성인 확인은 배송 수령 시 신분증으로 한 번 더 진행됩니다.
+      </p>
+    </aside>
+  </div>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.SONGSAN, A = S.Auth;
+  var u = A.current();
+  if (!u) { location.replace('login.html?next=account.html'); return; }
+
+  document.getElementById('hello').textContent = u.name + ' 님';
+  document.getElementById('sub').textContent =
+    u.email + ' · 가입 ' + new Date(u.createdAt).toLocaleDateString('ko-KR');
+
+  ['name', 'tel', 'zip', 'addr', 'addr2'].forEach(function (k) {
+    document.getElementById('p-' + k).value = u[k] || '';
+  });
+  document.getElementById('p-mkt').checked = !!u.marketing;
+
+  document.getElementById('save').addEventListener('click', function (e) {
+    e.preventDefault();
+    A.update({
+      name: document.getElementById('p-name').value.trim(),
+      tel: document.getElementById('p-tel').value.trim(),
+      zip: document.getElementById('p-zip').value.trim(),
+      addr: document.getElementById('p-addr').value.trim(),
+      addr2: document.getElementById('p-addr2').value.trim(),
+      marketing: document.getElementById('p-mkt').checked
+    });
+    S.toast('저장했습니다');
+  });
+
+  document.getElementById('logout').addEventListener('click', function () {
+    A.logout();
+    location.href = 'index.html';
+  });
+
+  var orders = A.orders();
+  document.getElementById('orders').innerHTML = orders.length
+    ? orders.map(function (o) {
+        return '<article class="order-row">' +
+          '<div class="row between" style="align-items:flex-start">' +
+            '<div>' +
+              '<div class="num" style="font-size:12px;color:var(--text-3);letter-spacing:.14em">' + o.no + '</div>' +
+              '<div class="t-h3" style="margin-top:10px">' + o.summary + '</div>' +
+              '<div class="small dim" style="margin-top:8px">' + o.shipLabel + '</div>' +
+            '</div>' +
+            '<div style="text-align:right;display:grid;gap:10px;justify-items:end">' +
+              '<span class="badge">' + o.status + '</span>' +
+              '<span class="num" style="font-size:16px">' + S.won(o.total) + '원</span>' +
+            '</div>' +
+          '</div>' +
+        '</article>';
+      }).join('')
+    : '<div class="empty" style="padding:60px 0">' +
+        '<p class="muted">아직 주문 내역이 없습니다.</p>' +
+        '<a class="btn btn-primary" href="products.html">이번 회차 와인 보기</a>' +
+      '</div>';
+});
+</script>
+</body>
+</html>
