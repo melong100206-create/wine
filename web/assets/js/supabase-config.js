@@ -8,5 +8,5 @@
 window.SONGSAN = window.SONGSAN || {};
 window.SONGSAN.supabase = {
   url: 'https://upivpeglioedgitufzwj.supabase.co',
-  key: 'PASTE_PUBLISHABLE_KEY_HERE'   // Supabase → Settings → API Keys → publishable (sb_publishable_...)
+  key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwaXZwZWdsaW9lZGdpdHVmendqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk4NDYwMTAsImV4cCI6MjEwNTQyMjAxMH0.Ni50TKpB0FkBdPkvP9ZwOw4SSjKTNomB3i37Bk88gtg'
 };

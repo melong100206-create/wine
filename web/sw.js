@@ -3,7 +3,7 @@
    화면은 네트워크 우선(최신 재고·출고일이 중요), 정적 자산은 캐시 우선.
    오프라인이면 offline.html 로 안내한다.
    ========================================================================== */
-const VERSION = 'songsan-v2';
+const VERSION = 'songsan-v3';   // Supabase 키 반영 — 기존 설치본 캐시 무효화
 const SHELL = VERSION + '-shell';
 const RUNTIME = VERSION + '-runtime';
 
