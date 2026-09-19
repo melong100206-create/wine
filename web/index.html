@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>송산언덕 포도원 · SONGSAN HILL VINEYARD</title>
+<meta name="description" content="수확에서 출고까지 열흘. 송산언덕 포도원이 한 회차에 만든 만큼만 직접 보내 드리는 한국 와인.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/consumer.css">
+</head>
+<body data-base="./">
+
+<!-- ══ C-01 히어로 ═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-media">
+    <!-- 실사 영상 준비 시 assets/video/hero.mp4 를 넣으면 자동 재생, 없으면 poster 이미지로 노출 -->
+    <video autoplay muted loop playsinline preload="none"
+           poster="assets/img/photo/hero.png"
+           onerror="this.replaceWith(Object.assign(new Image(),{src:'assets/img/hero.svg',className:'hero-fallback'}))">
+      <source src="assets/video/hero.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="hero-inner wrap">
+    <div class="dday" data-reveal>
+      <span class="label">Next Release</span>
+      <span class="value" id="dday">—</span>
+    </div>
+    <h1 class="t-display hero-title" data-reveal data-delay="1">
+      열흘을 기다려<br><em>열흘 안에</em> 보냅니다
+    </h1>
+    <p class="hero-sub" data-reveal data-delay="2">
+      송산언덕 포도원은 한 회차에 거둔 포도로 만든 만큼만 병에 담습니다.
+      재고를 쌓지 않기 때문에, 가장 짧은 시간 안에 가장 온전한 상태로 도착합니다.
+    </p>
+    <div class="hero-cta" data-reveal data-delay="3">
+      <a class="btn btn-primary" href="products.html">이번 회차 와인 보기</a>
+      <a class="btn" href="story.html">농장 이야기</a>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>SCROLL</span><i></i></div>
+</section>
+
+<!-- ══ 지표 ══════════════════════════════════════════════════ -->
+<section class="wrap" style="padding-top:clamp(60px,8vw,110px)">
+  <div class="figures" data-reveal>
+    <div><div class="fig-n num">10</div><div class="fig-l">수확 후 출고일</div></div>
+    <div><div class="fig-n num">300</div><div class="fig-l">한정 생산 병수</div></div>
+    <div><div class="fig-n num">1</div><div class="fig-l">단일 포도원</div></div>
+    <div><div class="fig-n num">0</div><div class="fig-l">중간 유통 단계</div></div>
+  </div>
+</section>
+
+<!-- ══ C-02 상품 (시차 스크롤) ═══════════════════════════════ -->
+<section class="section wrap">
+  <div class="sec-head split">
+    <div class="stack-sm" data-reveal>
+      <span class="eyebrow">The Collection</span>
+      <h2 class="t-h1">이번 회차의 네 병</h2>
+      <p>같은 밭, 같은 해. 발효와 침용을 달리했을 뿐입니다.</p>
+    </div>
+    <a class="link-underline" href="products.html" data-reveal data-delay="1">전체 보기</a>
+  </div>
+  <div class="product-grid" id="home-products"></div>
+</section>
+
+<!-- ══ C-01 ③ 체험농장 초청장 ════════════════════════════════ -->
+<section class="section wrap">
+  <div class="invite" data-reveal>
+    <div class="invite-grid">
+      <div class="stack">
+        <span class="eyebrow">Private Invitation</span>
+        <h2 class="t-h1">해가 넘어갈 때,<br>포도밭 한가운데에서</h2>
+        <p class="muted" style="max-width:46ch">
+          회당 여섯 분만 모십니다. 발효실 문을 열어 두고, 아직 이름 붙이지 않은 통의 술까지
+          함께 맛봅니다. 예약하신 분의 이름으로 잔을 준비해 둡니다.
+        </p>
+        <div class="row" style="gap:14px;flex-wrap:wrap">
+          <a class="btn btn-gold" href="experience.html">초청 일정 보기</a>
+          <span class="dim small">회당 6인 · 90분 · 1인 45,000원</span>
+        </div>
+      </div>
+      <div class="row" style="justify-content:center">
+        <div class="invite-seal">SONGSAN<br>HILL<br>EST. 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ C-01 ④ 브랜드 스토리 ══════════════════════════════════ -->
+<section class="section wrap">
+  <div class="split-story">
+    <div class="stack" data-reveal>
+      <span class="eyebrow">Ten Days Principle</span>
+      <h2 class="t-h1">기다림은 밭에서,<br>서두름은 그 다음에</h2>
+      <p class="muted">
+        포도는 익을 때까지 그대로 둡니다. 대신 수확한 뒤로는 시간을 다툽니다.
+        선별·파쇄·발효·병입까지 열흘. 오래 두어 좋아지는 것과, 늦출수록 잃는 것을
+        구분하는 일이 이 포도원이 지키는 유일한 규칙입니다.
+      </p>
+      <a class="link-underline" href="story.html">원칙을 지키는 방법</a>
+    </div>
+    <div class="frame tall" data-reveal data-delay="1" data-parallax="26" id="story-craft"></div>
+  </div>
+</section>
+
+<section class="section wrap" style="padding-top:0">
+  <div class="split-story reverse">
+    <div class="stack" data-reveal>
+      <span class="eyebrow">Onggi Fermentation</span>
+      <h2 class="t-h1">숨 쉬는 그릇에서<br>나오는 결</h2>
+      <p class="muted">
+        스테인리스 탱크는 안전합니다. 옹기는 그렇지 않습니다. 매년 몇 통은 버리지만,
+        살아남은 통에서만 나오는 무게가 있습니다. 그 통은 삼백 병에서 멈춥니다.
+      </p>
+      <a class="link-underline" href="product.html?id=onggi-limited">열흘의 원칙 · 한정판</a>
+    </div>
+    <div class="frame tall" data-reveal data-delay="1" data-parallax="-22" id="story-onggi"></div>
+  </div>
+</section>
+
+<!-- ══ 마무리 ════════════════════════════════════════════════ -->
+<section class="section wrap center">
+  <div class="stack" data-reveal>
+    <span class="eyebrow center" style="justify-content:center">Next Release</span>
+    <h2 class="t-h1" id="closing-dday">—</h2>
+    <p class="muted" style="max-width:44ch;margin-inline:auto">
+      이번 회차 물량이 끝나면 다음 수확까지 기다리셔야 합니다.
+    </p>
+    <div><a class="btn btn-primary" href="products.html">와인 보기</a></div>
+  </div>
+</section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.SONGSAN;
+  document.getElementById('dday').textContent = S.ddayText();
+  document.getElementById('closing-dday').textContent = S.ddayText();
+
+  document.getElementById('story-craft').innerHTML =
+    S.img('craft-hands', 'craft-hands.svg', '수확한 포도를 든 손') +
+    '<span class="caption">수확 당일 · 선별대</span>';
+  document.getElementById('story-onggi').innerHTML =
+    S.img('craft-onggi', 'craft-onggi.svg', '항아리 발효실') +
+    '<span class="caption">항아리 발효실 · 새벽</span>';
+
+  document.getElementById('home-products').innerHTML =
+    S.products.map(function (p, i) {
+      return S.card(p, i);
+    }).join('');
+
+  /* 히어로: 실사 poster 가 없으면 SVG 폴백으로 교체 */
+  var v = document.querySelector('.hero-media video');
+  if (v) {
+    var probe = new Image();
+    probe.onerror = function () {
+      v.replaceWith(Object.assign(new Image(), {
+        src: 'assets/img/hero.svg', className: 'hero-fallback', alt: '송산언덕 포도밭'
+      }));
+    };
+    probe.src = v.getAttribute('poster');
+  }
+
+  S.reveal();
+});
+</script>
+</body>
+</html>

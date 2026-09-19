@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800" role="img" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="p1" cx="50%" cy="38%" r="64%">
+      <stop offset="0%" stop-color="#333"/><stop offset="48%" stop-color="#171A18"/><stop offset="100%" stop-color="#060606"/>
+    </radialGradient>
+    
+  <filter id="g5">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+  </filter>
+  </defs>
+  <rect width="1000" height="800" fill="url(#p1)"/>
+  <ellipse cx="500" cy="470" rx="250" ry="170" fill="#0B0B0B"/>
+  <ellipse cx="500" cy="470" rx="250" ry="170" fill="none" stroke="#D4AF37" stroke-opacity=".28"/>
+  <ellipse cx="500" cy="462" rx="150" ry="98" fill="#141414"/>
+  <ellipse cx="500" cy="452" rx="96" ry="58" fill="#3A1220" opacity=".9"/>
+  <ellipse cx="500" cy="452" rx="96" ry="58" fill="none" stroke="#D4AF37" stroke-opacity=".2"/>
+  <text x="500" y="742" text-anchor="middle" font-family="monospace" font-size="15" letter-spacing="7" fill="#7E7E7E">JEJU DUCK CONFIT</text>
+  <rect width="1000" height="800" filter="url(#g5)" opacity=".5"/>
+</svg>

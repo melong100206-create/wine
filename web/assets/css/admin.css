@@ -1,0 +1,99 @@
+/* ==========================================================================
+   내부 시스템 (S 판매운영자 / P 생산자) — 업무 효율 우선 라이트 모드
+   설계도 17.2 단서 조항: 관리자·생산자 화면은 화이트 모드
+   ========================================================================== */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --a-bg: #F5F5F4;
+  --a-surface: #FFFFFF;
+  --a-line: #E2E1DE;
+  --a-text: #1A1A1A;
+  --a-text-2: #6B6B6B;
+  --a-brand: #640D2A;
+  --a-accent: #9A7B1F;
+  --a-ok: #1F6B3F;
+  --a-warn: #A8571A;
+  --a-font: 'Pretendard Variable', Pretendard, -apple-system, 'Malgun Gothic', sans-serif;
+  --a-num: 'IBM Plex Mono', Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--a-bg); color: var(--a-text);
+  font-family: var(--a-font); font-size: 14px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+.num { font-family: var(--a-num); font-feature-settings: "tnum"; }
+
+.a-top {
+  background: var(--a-surface); border-bottom: 1px solid var(--a-line);
+  padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 20;
+}
+.a-top .brand { font-weight: 600; letter-spacing: -.01em; display: flex; align-items: center; gap: 12px; }
+.a-top .role { font-size: 11px; letter-spacing: .12em; background: var(--a-brand); color: #fff; padding: 3px 9px; border-radius: 2px; }
+.a-top .role.p { background: #1F4D6B; }
+.a-top nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.a-top nav a { padding: 7px 13px; border-radius: 3px; color: var(--a-text-2); font-size: 13px; }
+.a-top nav a:hover { background: #EFEEEC; color: var(--a-text); }
+.a-top nav a.on { background: var(--a-text); color: #fff; }
+
+.a-wrap { max-width: 1240px; margin: 0 auto; padding: 26px 24px 80px; }
+.a-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+.a-head h1 { font-size: 21px; margin: 0; letter-spacing: -.02em; }
+.a-head p { margin: 4px 0 0; color: var(--a-text-2); font-size: 13px; }
+
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 26px; }
+@media (max-width: 860px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+.kpi { background: var(--a-surface); border: 1px solid var(--a-line); border-radius: 4px; padding: 18px 20px; }
+.kpi .k-l { font-size: 12px; color: var(--a-text-2); }
+.kpi .k-v { font-family: var(--a-num); font-size: 25px; margin-top: 6px; letter-spacing: -.02em; }
+.kpi .k-s { font-size: 11.5px; color: var(--a-text-2); margin-top: 2px; }
+.kpi.alert { border-color: #E4C9AE; background: #FDF7F1; }
+.kpi.alert .k-v { color: var(--a-warn); }
+
+.card { background: var(--a-surface); border: 1px solid var(--a-line); border-radius: 4px; overflow: hidden; margin-bottom: 22px; }
+.card > header { padding: 14px 20px; border-bottom: 1px solid var(--a-line); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.card > header h2 { font-size: 15px; margin: 0; }
+.card > header .hint { font-size: 12px; color: var(--a-text-2); }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 20px; text-align: left; border-bottom: 1px solid var(--a-line); font-size: 13px; vertical-align: middle; }
+th { font-size: 11.5px; color: var(--a-text-2); font-weight: 500; letter-spacing: .04em; background: #FAFAF9; position: sticky; top: 57px; }
+tbody tr:hover { background: #FAFAF9; }
+td.r, th.r { text-align: right; }
+.tbl-scroll { overflow-x: auto; }
+
+.tag { display: inline-block; padding: 3px 9px; border-radius: 2px; font-size: 11.5px; border: 1px solid var(--a-line); background: #FAFAF9; color: var(--a-text-2); white-space: nowrap; }
+.tag.paid   { border-color: #BFD8C6; background: #F1F8F3; color: var(--a-ok); }
+.tag.ready  { border-color: #CFD8E4; background: #F2F6FA; color: #24567C; }
+.tag.ship   { border-color: #E4D3AE; background: #FBF6EA; color: var(--a-accent); }
+.tag.done   { border-color: var(--a-line); background: #F3F3F2; }
+.tag.hold   { border-color: #E6C3C3; background: #FBF2F2; color: #9A2B2B; }
+
+.a-btn { border: 1px solid var(--a-line); background: var(--a-surface); border-radius: 3px; padding: 8px 14px; font-size: 13px; }
+.a-btn:hover { border-color: #C9C7C3; }
+.a-btn.primary { background: var(--a-text); color: #fff; border-color: var(--a-text); }
+.a-btn.brand { background: var(--a-brand); color: #fff; border-color: var(--a-brand); }
+.a-btn.lg { padding: 16px 22px; font-size: 15px; width: 100%; }
+.a-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.split2 { display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; align-items: start; }
+@media (max-width: 960px) { .split2 { grid-template-columns: 1fr; } }
+
+.note { font-size: 12.5px; color: var(--a-text-2); background: #FAFAF9; border: 1px dashed var(--a-line); border-radius: 4px; padding: 14px 16px; }
+
+/* 생산자(P) 화면 — 큰 글씨·큰 버튼, 터치 최소화 */
+.p-list { display: grid; gap: 12px; }
+.p-item { background: var(--a-surface); border: 1px solid var(--a-line); border-radius: 4px; padding: 18px 20px; display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; }
+.p-item.done { opacity: .5; }
+.p-item .p-t { font-size: 18px; font-weight: 600; }
+.p-item .p-s { font-size: 13px; color: var(--a-text-2); margin-top: 3px; }
+.p-item .p-q { font-family: var(--a-num); font-size: 26px; }
+.p-check { width: 100%; padding: 14px 18px; font-size: 15px; border-radius: 3px; border: 1px solid var(--a-line); background: #fff; }
+.p-check.on { background: var(--a-ok); border-color: var(--a-ok); color: #fff; }
+@media (max-width: 620px) { .p-item { grid-template-columns: 1fr; } }

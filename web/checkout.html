@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주문 · 송산언덕 포도원</title>
+<meta name="theme-color" content="#0D0D0D">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/consumer.css">
+</head>
+<body data-base="./">
+
+<header class="page-head wrap">
+  <div class="breadcrumb"><a href="cart.html">CART</a> · ORDER</div>
+  <h1 class="t-h1">주문</h1>
+</header>
+
+<main class="section wrap">
+  <div class="stepper">
+    <div aria-current="step"><span class="s-n">01</span> 배송 정보</div>
+    <div><span class="s-n">02</span> 결제</div>
+    <div><span class="s-n">03</span> 완료</div>
+  </div>
+
+  <form class="cart-layout" id="order-form" novalidate>
+    <div class="stack-lg">
+      <section class="stack">
+        <span class="eyebrow">Recipient</span>
+        <div class="field-row">
+          <div class="field"><label for="name">주문자</label><input id="name" required autocomplete="name"></div>
+          <div class="field"><label for="tel">휴대전화</label><input id="tel" class="num" required inputmode="tel" placeholder="010-0000-0000"></div>
+        </div>
+        <div class="field"><label for="email">이메일 (주문 내역 발송)</label><input id="email" type="email" required autocomplete="email"></div>
+        <div class="field-row">
+          <div class="field"><label for="zip">우편번호</label><input id="zip" class="num" required inputmode="numeric"></div>
+          <div class="field"><label for="addr">주소</label><input id="addr" required autocomplete="street-address"></div>
+        </div>
+        <div class="field"><label for="addr2">상세 주소</label><input id="addr2" autocomplete="address-line2"></div>
+        <div class="field"><label for="memo">배송 메모</label>
+          <select id="memo">
+            <option>부재 시 전화 부탁드립니다</option>
+            <option>파손 주의 — 문 앞에 두지 마세요</option>
+            <option>공동현관 비밀번호 입력 후 배송</option>
+          </select>
+        </div>
+        <p class="dim xsmall">주류는 문 앞 배송이 불가하며, 성인 수령인에게 신분증 확인 후 직접 전달됩니다.</p>
+      </section>
+
+      <section class="stack">
+        <span class="eyebrow">Payment</span>
+        <div class="pay-opts">
+          <label class="pay-opt"><input type="radio" name="pay" value="card" checked> <span>신용·체크카드</span></label>
+          <label class="pay-opt"><input type="radio" name="pay" value="kakao"> <span>카카오페이</span></label>
+          <label class="pay-opt"><input type="radio" name="pay" value="naver"> <span>네이버페이</span></label>
+          <label class="pay-opt"><input type="radio" name="pay" value="bank"> <span>계좌이체 (무통장)</span></label>
+        </div>
+        <p class="dim xsmall">프로토타입에서는 실제 결제가 일어나지 않습니다. 실제 구축 시 PG(토스페이먼츠·KG이니시스 등) 인증 결제창이 이 자리에 다크 테마로 연동됩니다.</p>
+      </section>
+
+      <section class="stack">
+        <span class="eyebrow">Agreement</span>
+        <label class="check"><input type="checkbox" id="ag-age" required>
+          <span>만 19세 이상이며, 성인 수령 확인 절차에 동의합니다. <b>(필수)</b></span></label>
+        <label class="check"><input type="checkbox" id="ag-term" required>
+          <span>주문 내용을 확인했으며 구매 조건 및 개인정보 수집·이용(배송·주문 처리 목적)에 동의합니다. <b>(필수)</b></span></label>
+        <label class="check"><input type="checkbox" id="ag-mkt">
+          <span>다음 회차 출고 소식을 문자로 받겠습니다. (선택)</span></label>
+      </section>
+    </div>
+
+    <aside class="summary" id="summary"></aside>
+  </form>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.SONGSAN;
+  var t = S.Cart.totals();
+
+  if (!t.rows.length) {
+    document.getElementById('order-form').outerHTML =
+      '<div class="empty"><h2 class="t-h2">주문할 상품이 없습니다</h2>' +
+      '<a class="btn btn-primary" href="products.html">와인 보러 가기</a></div>';
+    return;
+  }
+
+  document.getElementById('summary').innerHTML =
+    '<span class="eyebrow">Order Summary</span>' +
+    '<div style="margin-top:24px">' +
+      t.rows.map(function (r) {
+        return '<div class="sum-row"><span>' + r.product.name + ' <span class="num dim">×' + r.qty + '</span></span>' +
+               '<span class="num">' + S.won(r.line) + '원</span></div>';
+      }).join('') +
+      '<div class="sum-row"><span>배송비</span><span class="num">' + (t.ship ? S.won(t.ship) + '원' : '무료') + '</span></div>' +
+      '<div class="sum-row total"><span>결제 금액</span><span class="num">' + S.won(t.total) + '원</span></div>' +
+    '</div>' +
+    '<button class="btn btn-primary btn-block" id="pay" style="margin-top:28px">' + S.won(t.total) + '원 결제하기</button>' +
+    '<p class="dim xsmall" style="margin-top:18px">' + S.ddayText() + ' · 출고 후 1–2일 내 도착</p>';
+
+  document.getElementById('pay').addEventListener('click', function (e) {
+    e.preventDefault();
+    var form = document.getElementById('order-form');
+    var required = ['name', 'tel', 'email', 'zip', 'addr'];
+    var missing = required.filter(function (id) { return !document.getElementById(id).value.trim(); });
+    if (missing.length) {
+      S.toast('배송 정보를 모두 입력해 주세요');
+      document.getElementById(missing[0]).focus();
+      return;
+    }
+    if (!document.getElementById('ag-age').checked || !document.getElementById('ag-term').checked) {
+      S.toast('필수 동의 항목을 확인해 주세요');
+      return;
+    }
+    var order = {
+      no: 'SH' + new Date().toISOString().slice(2, 10).replace(/-/g, '') + '-' + String(Math.floor(Math.random() * 9000) + 1000),
+      name: document.getElementById('name').value.trim(),
+      total: t.total,
+      bottles: t.bottles,
+      ship: S.nextShipDate
+    };
+    try { sessionStorage.setItem('songsan.lastOrder', JSON.stringify(order)); } catch (err) {}
+    S.Cart.clear();
+    location.href = 'order-complete.html';
+  });
+});
+</script>
+</body>
+</html>

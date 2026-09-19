@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>와인 · 송산언덕 포도원</title>
+<meta name="description" content="송산언덕 포도원 이번 회차 와인 전체. 품종과 발효 방식으로 나뉜 네 병.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/consumer.css">
+</head>
+<body data-base="./">
+
+<header class="page-head wrap">
+  <div class="breadcrumb"><a href="index.html">HOME</a> · WINE</div>
+  <div class="sec-head split" style="margin-bottom:0">
+    <div class="stack-sm">
+      <h1 class="t-h1">이번 회차의 와인</h1>
+      <p>가격보다 먼저 보셔야 할 것은 품종과 발효 방식입니다.</p>
+    </div>
+    <div class="dday" style="margin:0">
+      <span class="label">Next Release</span>
+      <span class="value" id="dday">—</span>
+    </div>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="filterbar" id="filters"></div>
+  <div class="product-grid" id="grid"></div>
+</section>
+
+<section class="section wrap">
+  <div class="invite" data-reveal>
+    <div class="invite-grid">
+      <div class="stack">
+        <span class="eyebrow">Packaging</span>
+        <h2 class="t-h2">여는 순간까지가 상품입니다</h2>
+        <p class="muted" style="max-width:48ch">
+          모든 병은 무광 블랙 하드케이스에 병 모양대로 정밀 커팅된 고밀도 폼으로 고정되어
+          나갑니다. 에어캡은 쓰지 않습니다. 금박 테이스팅 노트 카드와 생산자 서명 레터가
+          함께 들어갑니다.
+        </p>
+      </div>
+      <div class="frame wide" id="box-shot" style="border-color:var(--accent-dim)"></div>
+    </div>
+  </div>
+</section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.SONGSAN;
+  document.getElementById('dday').textContent = S.ddayText();
+  document.getElementById('box-shot').innerHTML =
+    S.img('box-open', 'box-jar.svg', '전용 패키지 박스') +
+    '<span class="caption">전용 하드케이스 · 고밀도 EPE 폼</span>';
+
+  var FILTERS = [
+    { key: 'all',     label: '전체' },
+    { key: 'dry',     label: '드라이', test: function (p) { return p.tasting['당도'] <= 2; } },
+    { key: 'medium',  label: '미디엄 · 세미스위트', test: function (p) { return p.tasting['당도'] >= 3; } },
+    { key: 'limited', label: '한정판', test: function (p) { return !!p.limited; } },
+    { key: 'instock', label: '구매 가능', test: function (p) { return p.stock > 0; } }
+  ];
+
+  var bar = document.getElementById('filters');
+  bar.innerHTML = FILTERS.map(function (f, i) {
+    return '<button class="chip" data-k="' + f.key + '" aria-pressed="' + (i === 0) + '">' + f.label + '</button>';
+  }).join('');
+
+  function paint(key) {
+    var f = FILTERS.find(function (x) { return x.key === key; });
+    var list = f.test ? S.products.filter(f.test) : S.products;
+    document.getElementById('grid').innerHTML = list.length
+      ? list.map(function (p, i) { return S.card(p, i); }).join('')
+      : '<div class="empty"><p class="muted">해당 조건의 와인이 없습니다.</p></div>';
+    S.reveal();
+  }
+
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest('.chip');
+    if (!b) return;
+    Array.prototype.forEach.call(bar.children, function (c) { c.setAttribute('aria-pressed', c === b); });
+    paint(b.dataset.k);
+  });
+
+  paint('all');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "width": 704,
+  "height": 896,
+  "steps": 4,
+  "texture": false,
+  "scenes": [
+    {
+      "name": "bottle-campbell",
+      "prompt": "cinematic photorealistic product photography of one elegant tall dark green glass wine bottle with a plain unlabeled blank matte black paper label, burgundy wax capsule on the neck, standing centered on a polished black reflective surface, single hard pin spotlight from above, pure black seamless background, soft rim light along the glass shoulder, shot on 85mm lens, low-key studio lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark"
+    },
+    {
+      "name": "bottle-mba",
+      "prompt": "cinematic photorealistic product photography of one slender dark amber brown glass wine bottle with a plain unlabeled blank charcoal paper label, dark burgundy capsule, standing on black stone slab, single narrow pin spotlight from upper left, pure black seamless background, thin champagne gold rim light on the bottle edge, shot on 85mm lens, low-key studio lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark"
+    },
+    {
+      "name": "bottle-jar",
+      "prompt": "cinematic photorealistic product photography of one dark glass wine bottle with a plain unlabeled blank black label standing beside a small traditional Korean earthenware onggi jar, both on a black reflective surface, single dramatic pin spotlight, pure black seamless background, warm faint amber glow behind, shot on 85mm lens, low-key studio lighting, artisanal luxury aesthetic, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark"
+    },
+    {
+      "name": "box-open",
+      "prompt": "cinematic photorealistic product photography of a luxury matte black rigid presentation gift box opened at an angle, black high density foam insert precisely cut to hold one wine bottle, black velvet texture lining, a blank cream card resting on top, single pin spotlight, pure black seamless background, unboxing luxury aesthetic, shot on 85mm lens, low-key studio lighting, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark"
+    },
+    {
+      "name": "craft-onggi",
+      "prompt": "photorealistic sepia toned atmospheric photograph of large traditional Korean earthenware onggi fermentation jars lined up in a dim cellar, dust motes floating in a single shaft of warm light from a high window, aged clay texture, deep shadows, artisanal heritage craftsmanship mood, shot on 50mm lens, shallow depth of field, monochrome warm sepia grade, heavy film grain, ultra detailed, no text, no logo, no watermark"
+    }
+  ]
+}

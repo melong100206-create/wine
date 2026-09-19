@@ -1,0 +1,12 @@
+{
+  "width": 896,
+  "height": 512,
+  "steps": 4,
+  "texture": false,
+  "scenes": [
+    {
+      "name": "hero",
+      "prompt": "cinematic photorealistic wide shot, dark moody vineyard at night just after harvest, rows of grape vines receding into darkness, thin low fog drifting between the rows, a single distant warm lamp glowing deep burgundy and champagne gold, heavy black sky, shot on 35mm anamorphic lens, shallow depth of field, dramatic low-key lighting, deep crushed shadows, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    }
+  ]
+}

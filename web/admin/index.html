@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>판매운영자 콘솔 · 송산언덕</title>
+<link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+<div class="a-top">
+  <div class="brand">송산언덕 운영 콘솔 <span class="role">S · 판매운영자</span></div>
+  <nav>
+    <a class="on" href="index.html">주문·발주</a>
+    <a href="#settle">정산</a>
+    <a href="../producer/index.html">생산자 화면</a>
+    <a href="../index.html">소비자 사이트</a>
+  </nav>
+</div>
+
+<div class="a-wrap">
+  <div class="a-head">
+    <div>
+      <h1>오늘의 운영</h1>
+      <p>2026-09-20 (토) · 다음 출고 회차 2026-10-02 (D-12)</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="a-btn" id="btn-labels">라벨·송장 일괄 출력</button>
+      <button class="a-btn primary" id="btn-po">발주서 확정 전송</button>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="k-l">결제 완료 주문</div><div class="k-v">38</div><div class="k-s">어제 대비 +6</div></div>
+    <div class="kpi"><div class="k-l">출고 대기 병수</div><div class="k-v">112</div><div class="k-s">캠벨 54 · MBA 38 · 한정 12 · 로제 8</div></div>
+    <div class="kpi alert"><div class="k-l">확인 필요</div><div class="k-v">3</div><div class="k-s">주소 오류 2 · 성인인증 미완 1</div></div>
+    <div class="kpi"><div class="k-l">이번 회차 매출</div><div class="k-v">2,614,000</div><div class="k-s">패키징 원가 반영 전</div></div>
+  </div>
+
+  <div class="split2">
+    <div>
+      <section class="card">
+        <header>
+          <h2>주문 목록</h2>
+          <span class="hint">상태 변경은 생산자 화면과 자동 동기화됩니다 (스냅샷 기록)</span>
+        </header>
+        <div class="tbl-scroll">
+          <table id="orders">
+            <thead>
+              <tr><th>주문번호</th><th>수령인</th><th>구성</th><th class="r">금액</th><th>상태</th><th class="r">처리</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" id="settle">
+        <header>
+          <h2>정산 (스냅샷 기준)</h2>
+          <span class="hint">주문 시점 단가로 고정 · 이후 가격 변경의 영향을 받지 않음</span>
+        </header>
+        <div class="tbl-scroll">
+          <table>
+            <thead><tr><th>품목</th><th class="r">출고 병수</th><th class="r">스냅샷 단가</th><th class="r">생산자 정산액</th><th class="r">운영 수수료</th></tr></thead>
+            <tbody id="settle-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <aside>
+      <section class="card">
+        <header><h2>회차 발주서</h2></header>
+        <div style="padding:18px 20px">
+          <table style="margin:-6px 0 14px">
+            <tbody id="po-body"></tbody>
+          </table>
+          <button class="a-btn brand lg" id="btn-po2">발주 확정 · 생산자에게 전송</button>
+          <p class="note" style="margin-top:14px">
+            확정 시 생산자 화면에는 <b>“오늘 담을 것”</b> 목록만 표시됩니다.
+            가격·정산·고객 정보는 생산자에게 노출되지 않습니다. (설계도 11장 권한)
+          </p>
+        </div>
+      </section>
+
+      <section class="card">
+        <header><h2>체험농장 예약 요청</h2></header>
+        <div style="padding:6px 0">
+          <table>
+            <tbody>
+              <tr><td>프라이빗 테이스팅<div class="hint">10/05 17:00 · 2인</div></td><td class="r"><span class="tag ready">확인 대기</span></td></tr>
+              <tr><td>수확 동행<div class="hint">10/11 06:00 · 4인</div></td><td class="r"><span class="tag paid">확정</span></td></tr>
+              <tr><td>가족 포도 따기<div class="hint">10/12 10:00 · 6인</div></td><td class="r"><span class="tag ready">확인 대기</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script>
+const ORDERS = [
+  { no: 'SH260920-4821', to: '김○○', items: '캠벨 2 · MBA 1', amt: 61000, st: 'paid' },
+  { no: 'SH260920-4820', to: '이○○', items: '한정 1', amt: 42500, st: 'paid' },
+  { no: 'SH260919-4818', to: '박○○', items: '캠벨 6', amt: 114000, st: 'ready' },
+  { no: 'SH260919-4815', to: '최○○', items: '로제 2 · MBA 2', amt: 91500, st: 'hold' },
+  { no: 'SH260918-4809', to: '정○○', items: 'MBA 3', amt: 72500, st: 'ship' },
+  { no: 'SH260918-4806', to: '한○○', items: '캠벨 1 · 한정 1', amt: 61500, st: 'done' }
+];
+const LABEL = { paid: '결제완료', ready: '출고준비', ship: '배송중', done: '배송완료', hold: '확인필요' };
+const NEXT  = { paid: 'ready', ready: 'ship', ship: 'done' };
+const won = (n) => n.toLocaleString('ko-KR');
+
+function paintOrders() {
+  document.querySelector('#orders tbody').innerHTML = ORDERS.map((o, i) => `
+    <tr>
+      <td class="num">${o.no}</td>
+      <td>${o.to}</td>
+      <td>${o.items}</td>
+      <td class="r num">${won(o.amt)}</td>
+      <td><span class="tag ${o.st}">${LABEL[o.st]}</span></td>
+      <td class="r">${
+        NEXT[o.st]
+          ? `<button class="a-btn" data-i="${i}">${LABEL[NEXT[o.st]]}로</button>`
+          : o.st === 'hold' ? '<button class="a-btn" data-i="' + i + '" data-fix="1">확인 완료</button>' : '—'
+      }</td>
+    </tr>`).join('');
+}
+
+document.querySelector('#orders').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-i]'); if (!b) return;
+  const o = ORDERS[Number(b.dataset.i)];
+  o.st = b.dataset.fix ? 'paid' : NEXT[o.st];
+  paintOrders();
+});
+
+const PO = [['캠벨 얼리 드라이', 54], ['머스캣 베일리 에이', 38], ['열흘의 원칙 · 한정', 12], ['캠벨 로제', 8]];
+document.getElementById('po-body').innerHTML = PO.map(([n, q]) =>
+  `<tr><td>${n}</td><td class="r num" style="font-size:16px">${q}병</td></tr>`).join('') +
+  `<tr><td><b>합계</b></td><td class="r num" style="font-size:16px"><b>${PO.reduce((a, x) => a + x[1], 0)}병</b></td></tr>`;
+
+const SETTLE = [
+  ['캠벨 얼리 드라이', 54, 19000, 0.78],
+  ['머스캣 베일리 에이', 38, 23000, 0.78],
+  ['열흘의 원칙 · 한정', 12, 39000, 0.80],
+  ['캠벨 로제', 8, 21000, 0.78]
+];
+document.getElementById('settle-body').innerHTML = SETTLE.map(([n, q, p, r]) => {
+  const gross = q * p;
+  return `<tr><td>${n}</td><td class="r num">${q}</td><td class="r num">${won(p)}</td>
+    <td class="r num">${won(Math.round(gross * r))}</td>
+    <td class="r num">${won(Math.round(gross * (1 - r)))}</td></tr>`;
+}).join('');
+
+const go = () => alert('프로토타입: 실제 전송 대신 확정 처리만 표시합니다.\n확정 시 생산자 화면의 "오늘 담을 것" 목록이 갱신됩니다.');
+document.getElementById('btn-po').onclick = go;
+document.getElementById('btn-po2').onclick = go;
+document.getElementById('btn-labels').onclick = () =>
+  alert('프로토타입: 라벨·송장 PDF 일괄 출력 (설계도 13장) 자리입니다.');
+
+paintOrders();
+</script>
+</body>
+</html>

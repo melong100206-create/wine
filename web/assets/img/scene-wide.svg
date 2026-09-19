@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0B0B0B"/><stop offset="52%" stop-color="#2A1020" stop-opacity=".55"/><stop offset="100%" stop-color="#040404"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="28%" r="52%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity=".22"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+    
+  <filter id="g3">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+  </filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect width="1600" height="1000" fill="url(#glow)"/>
+  <g stroke="#000" stroke-opacity=".55" fill="none">
+    <path d="M-100 520 Q 800 480 1700 520" stroke-width="1"/>
+    <path d="M-100 567.2727272727273 Q 800 521.2727272727273 1700 567.2727272727273" stroke-width="1.5"/>
+    <path d="M-100 614.5454545454546 Q 800 562.5454545454546 1700 614.5454545454546" stroke-width="2"/>
+    <path d="M-100 661.8181818181819 Q 800 603.8181818181819 1700 661.8181818181819" stroke-width="2.5"/>
+    <path d="M-100 709.0909090909091 Q 800 645.0909090909091 1700 709.0909090909091" stroke-width="3"/>
+    <path d="M-100 756.3636363636364 Q 800 686.3636363636364 1700 756.3636363636364" stroke-width="3.5"/>
+    <path d="M-100 803.6363636363637 Q 800 727.6363636363637 1700 803.6363636363637" stroke-width="4"/>
+    <path d="M-100 850.909090909091 Q 800 768.909090909091 1700 850.909090909091" stroke-width="4.5"/>
+    <path d="M-100 898.1818181818182 Q 800 810.1818181818182 1700 898.1818181818182" stroke-width="5"/>
+    <path d="M-100 945.4545454545455 Q 800 851.4545454545455 1700 945.4545454545455" stroke-width="5.5"/>
+    <path d="M-100 992.7272727272726 Q 800 892.7272727272726 1700 992.7272727272726" stroke-width="6"/>
+  </g>
+  <g fill="#000" opacity=".82">
+    <rect x="-3" y="820" width="6" height="180"/>
+    <rect x="120.07692307692308" y="753.3333333333334" width="6" height="246.66666666666666"/>
+    <rect x="243.15384615384616" y="686.6666666666666" width="6" height="313.33333333333337"/>
+    <rect x="366.2307692307692" y="803.3333333333334" width="6" height="196.66666666666666"/>
+    <rect x="489.3076923076923" y="736.6666666666667" width="6" height="263.3333333333333"/>
+    <rect x="612.3846153846155" y="670" width="6" height="329.99999999999994"/>
+    <rect x="735.4615384615385" y="786.6666666666667" width="6" height="213.33333333333331"/>
+    <rect x="858.5384615384615" y="720" width="6" height="280"/>
+    <rect x="981.6153846153846" y="653.3333333333333" width="6" height="346.6666666666667"/>
+    <rect x="1104.6923076923076" y="770" width="6" height="229.99999999999997"/>
+    <rect x="1227.769230769231" y="703.3333333333334" width="6" height="296.66666666666663"/>
+    <rect x="1350.8461538461538" y="820" width="6" height="180"/>
+    <rect x="1473.923076923077" y="753.3333333333334" width="6" height="246.66666666666666"/>
+    <rect x="1597" y="686.6666666666666" width="6" height="313.33333333333337"/>
+  </g>
+  <rect width="1600" height="1000" fill="url(#g-none)"/>
+  
+  <rect width="1600" height="1000" filter="url(#g3)" opacity=".55"/>
+</svg>

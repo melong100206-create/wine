@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img">
+  <defs>
+    <radialGradient id="spot" cx="50%" cy="34%" r="62%">
+      <stop offset="0%" stop-color="#3a3a3a"/><stop offset="45%" stop-color="#141414"/><stop offset="100%" stop-color="#050505"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#000"/><stop offset="22%" stop-color="#2B0A16"/>
+      <stop offset="48%" stop-color="#5E1228"/><stop offset="70%" stop-color="#2B0A16"/><stop offset="100%" stop-color="#050505"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity=".30"/><stop offset="60%" stop-color="#fff" stop-opacity=".02"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5E1228" stop-opacity=".30"/><stop offset="100%" stop-color="#5E1228" stop-opacity="0"/>
+    </linearGradient>
+    
+  <filter id="g1">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+  </filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#spot)"/>
+  <ellipse cx="400" cy="892" rx="196" ry="26" fill="#000" opacity=".72"/>
+  <g>
+    <path d="M356 122h88v146c0 34 18 44 41 74 25 32 37 70 37 116v400c0 22-16 34-38 34H316c-22 0-38-12-38-34V458c0-46 12-84 37-116 23-30 41-40 41-74V122z" fill="url(#glass)"/>
+    <rect x="352" y="96" width="96" height="42" rx="3" fill="#640D2A"/>
+    <rect x="352" y="96" width="96" height="42" rx="3" fill="none" stroke="#D4AF37" stroke-opacity=".5"/>
+    <path d="M356 150h88v118h-88z" fill="#000" opacity=".22"/>
+    <path d="M330 470c0-40 10-72 30-98v520h-30z" fill="url(#sheen)"/>
+    <rect x="300" y="540" width="200" height="252" fill="#0E0E0E"/>
+    <rect x="300" y="540" width="200" height="252" fill="none" stroke="#D4AF37" stroke-opacity=".55"/>
+    <rect x="312" y="552" width="176" height="228" fill="none" stroke="#D4AF37" stroke-opacity=".22"/>
+    <text x="400" y="622" text-anchor="middle" font-family="Georgia, serif" font-size="13" letter-spacing="7" fill="#D4AF37">SONGSAN HILL</text>
+    <line x1="344" y1="642" x2="456" y2="642" stroke="#D4AF37" stroke-opacity=".45"/>
+    <text x="400" y="686" text-anchor="middle" font-family="Georgia, serif" font-size="26" letter-spacing="5" fill="#F2F2F2">CAMPBELL</text>
+    <text x="400" y="722" text-anchor="middle" font-family="monospace" font-size="10" letter-spacing="4" fill="#A6A6A6">CAMPBELL EARLY · DRY</text>
+    <text x="400" y="762" text-anchor="middle" font-family="monospace" font-size="9" letter-spacing="3" fill="#6E6E6E">KOREA · 750ml</text>
+  </g>
+  <ellipse cx="400" cy="900" rx="150" ry="60" fill="url(#floor)"/>
+  <rect width="800" height="1000" filter="url(#g1)" opacity=".5"/>
+</svg>

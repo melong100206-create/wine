@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500" role="img" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="c1" cx="46%" cy="34%" r="70%">
+      <stop offset="0%" stop-color="#6B5843"/><stop offset="42%" stop-color="#22201C"/><stop offset="100%" stop-color="#070605"/>
+    </radialGradient>
+    
+  <filter id="g4">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+  </filter>
+  </defs>
+  <rect width="1200" height="1500" fill="url(#c1)"/>
+  <!-- 항아리 실루엣 -->
+  <g fill="#0A0806" opacity=".86">
+    <path d="M600 470c150 0 250 120 250 300s-112 300-250 300-250-120-250-300 100-300 250-300z"/>
+    <rect x="520" y="424" width="160" height="60" rx="8"/>
+  </g>
+  <g fill="none" stroke="#C9A227" stroke-opacity=".28">
+    <path d="M600 470c150 0 250 120 250 300s-112 300-250 300-250-120-250-300 100-300 250-300z"/>
+    <path d="M410 700h380M430 860h340"/>
+  </g>
+  <ellipse cx="600" cy="1108" rx="290" ry="40" fill="#000" opacity=".6"/>
+  <text x="600" y="1420" text-anchor="middle" font-family="monospace" font-size="20" letter-spacing="10" fill="#9E8A6B">TEN DAYS PRINCIPLE</text>
+  <rect width="1200" height="1500" filter="url(#g4)" opacity=".6"/>
+</svg>

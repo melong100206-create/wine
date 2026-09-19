@@ -1,0 +1,40 @@
+{
+  "width": 1280,
+  "height": 720,
+  "steps": 4,
+  "texture": false,
+  "scenes": [
+    {
+      "name": "hero",
+      "prompt": "cinematic photorealistic wide shot, dark moody vineyard at night just after harvest, rows of grape vines receding into darkness, thin low fog drifting between the rows, a single distant warm lamp glowing deep burgundy and champagne gold, heavy black sky, shot on 35mm anamorphic lens, shallow depth of field, dramatic low-key lighting, deep crushed shadows, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "hero-pour",
+      "prompt": "extreme close-up photorealistic shot of dark red wine being poured into a crystal wine glass, single hard pin spotlight from above cutting through pure black background, deep ruby liquid catching the light, delicate swirl and tiny bubbles, condensation on glass, shot on 100mm macro lens, shallow depth of field, low-key chiaroscuro lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "grape-macro",
+      "prompt": "extreme macro photorealistic close-up of a cluster of deep purple black wine grapes with morning dew droplets, single pin spotlight, pure black background, glistening skin with natural bloom, one green leaf edge in deep shadow, shot on 100mm macro lens, razor shallow depth of field, low-key dramatic lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "pair-1",
+      "prompt": "cinematic photorealistic fine dining food photography, thinly sliced medium rare grilled Korean beef on a matte black ceramic plate with charred edges, a glass of dark red wine blurred in the background, single warm pin spotlight, near black table, shot on 85mm lens, shallow depth of field, moody low-key restaurant lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "pair-2",
+      "prompt": "cinematic photorealistic fine dining food photography, crisp skin duck breast fanned on a dark slate plate with a glossy dark berry reduction, microgreens, single warm pin spotlight, near black table, wine glass silhouette blurred behind, shot on 85mm lens, shallow depth of field, moody low-key restaurant lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "pair-3",
+      "prompt": "cinematic photorealistic food photography, aged hard cheese wedges, fresh halved figs and walnuts on a dark wooden board, honey drizzle catching light, single warm pin spotlight, near black background, shot on 85mm lens, shallow depth of field, moody low-key lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "farm-tour",
+      "prompt": "cinematic photorealistic photograph of a private evening vineyard tasting table set among grape vines at golden hour turning to blue dusk, two wine glasses and a dark bottle on a rustic wooden table, warm string lights bokeh, hills of Korea in the far background, shot on 50mm lens, shallow depth of field, warm cinematic grade, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "story-wide",
+      "prompt": "cinematic photorealistic wide landscape photograph of a Korean hillside vineyard at dawn, low mist over the grape rows, soft dark blue and deep burgundy tones, distant mountain ridges, no people, shot on 35mm lens, moody atmospheric grade, deep shadows, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    }
+  ]
+}

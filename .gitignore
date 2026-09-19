@@ -1,0 +1,4 @@
+node_modules/
+web/assets/img/photo/*.png.tmp
+.DS_Store
+Thumbs.db

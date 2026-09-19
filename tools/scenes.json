@@ -1,0 +1,86 @@
+{
+  "width": 1280,
+  "height": 720,
+  "scenes": [
+    {
+      "name": "hero",
+      "prompt": "cinematic photorealistic wide shot, dark moody vineyard at night just after harvest, rows of grape vines receding into darkness, thin low fog drifting between the rows, a single distant warm lamp glowing deep burgundy and champagne gold, heavy black sky, shot on 35mm anamorphic lens, shallow depth of field, dramatic low-key lighting, deep crushed shadows, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "hero-pour",
+      "prompt": "extreme close-up photorealistic shot of dark red wine being poured into a crystal wine glass, single hard pin spotlight from above cutting through pure black background, deep ruby liquid catching the light, delicate swirl and tiny bubbles, condensation on glass, shot on 100mm macro lens, shallow depth of field, low-key chiaroscuro lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "grape-macro",
+      "prompt": "extreme macro photorealistic close-up of a cluster of deep purple black wine grapes with morning dew droplets, single pin spotlight, pure black background, glistening skin with natural bloom, one green leaf edge in deep shadow, shot on 100mm macro lens, razor shallow depth of field, low-key dramatic lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "bottle-campbell",
+      "prompt": "cinematic photorealistic product photography of one elegant tall dark green glass wine bottle with a plain unlabeled blank matte black paper label, burgundy wax capsule on the neck, standing centered on a polished black reflective surface, single hard pin spotlight from above, pure black seamless background, soft rim light along the glass shoulder, shot on 85mm lens, low-key studio lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "name": "bottle-mba",
+      "prompt": "cinematic photorealistic product photography of one slender dark amber brown glass wine bottle with a plain unlabeled blank charcoal paper label, dark burgundy capsule, standing on black stone slab, single narrow pin spotlight from upper left, pure black seamless background, thin champagne gold rim light on the bottle edge, shot on 85mm lens, low-key studio lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "name": "bottle-jar",
+      "prompt": "cinematic photorealistic product photography of one dark glass wine bottle with a plain unlabeled blank black label standing beside a small traditional Korean earthenware onggi jar, both on a black reflective surface, single dramatic pin spotlight, pure black seamless background, warm faint amber glow behind, shot on 85mm lens, low-key studio lighting, artisanal luxury aesthetic, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "name": "bottle-rose",
+      "prompt": "cinematic photorealistic product photography of one clear glass bottle filled with pale rose pink wine, plain unlabeled blank ivory paper label, soft pink capsule, standing on black reflective surface, single pin spotlight from above, pure black seamless background, delicate pink light refraction through the glass, shot on 85mm lens, low-key studio lighting, luxury wine brand aesthetic, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "name": "box-open",
+      "prompt": "cinematic photorealistic product photography of a luxury matte black rigid presentation gift box opened at an angle, black high density foam insert precisely cut to hold one wine bottle, black velvet texture lining, a blank cream card resting on top, single pin spotlight, pure black seamless background, unboxing luxury aesthetic, shot on 85mm lens, low-key studio lighting, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "name": "box-closed",
+      "prompt": "cinematic photorealistic product photography of a closed luxury matte black rigid gift box with a thin champagne gold foil border line, sitting on black reflective stone, single hard pin spotlight from above, pure black seamless background, premium unboxing aesthetic, shot on 85mm lens, low-key studio lighting, subtle film grain, ultra detailed, no text, no logo, no lettering, no watermark",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "name": "craft-onggi",
+      "prompt": "photorealistic sepia toned atmospheric photograph of large traditional Korean earthenware onggi fermentation jars lined up in a dim cellar, dust motes floating in a single shaft of warm light from a high window, aged clay texture, deep shadows, artisanal heritage craftsmanship mood, shot on 50mm lens, shallow depth of field, monochrome warm sepia grade, heavy film grain, ultra detailed, no text, no logo, no watermark",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "name": "craft-hands",
+      "prompt": "photorealistic black and white close-up photograph of weathered elderly farmer hands gently holding a cluster of wine grapes over a wooden crate, deep wrinkles and soil under the nails, single soft side light, dark background, documentary heritage craftsmanship mood, shot on 50mm lens, shallow depth of field, high contrast monochrome, heavy film grain, ultra detailed, no text, no logo, no watermark",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "name": "pair-1",
+      "prompt": "cinematic photorealistic fine dining food photography, thinly sliced medium rare grilled Korean beef on a matte black ceramic plate with charred edges, a glass of dark red wine blurred in the background, single warm pin spotlight, near black table, shot on 85mm lens, shallow depth of field, moody low-key restaurant lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "pair-2",
+      "prompt": "cinematic photorealistic fine dining food photography, crisp skin duck breast fanned on a dark slate plate with a glossy dark berry reduction, microgreens, single warm pin spotlight, near black table, wine glass silhouette blurred behind, shot on 85mm lens, shallow depth of field, moody low-key restaurant lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "pair-3",
+      "prompt": "cinematic photorealistic food photography, aged hard cheese wedges, fresh halved figs and walnuts on a dark wooden board, honey drizzle catching light, single warm pin spotlight, near black background, shot on 85mm lens, shallow depth of field, moody low-key lighting, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "farm-tour",
+      "prompt": "cinematic photorealistic photograph of a private evening vineyard tasting table set among grape vines at golden hour turning to blue dusk, two wine glasses and a dark bottle on a rustic wooden table, warm string lights bokeh, hills of Korea in the far background, shot on 50mm lens, shallow depth of field, warm cinematic grade, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    },
+    {
+      "name": "story-wide",
+      "prompt": "cinematic photorealistic wide landscape photograph of a Korean hillside vineyard at dawn, low mist over the grape rows, soft dark blue and deep burgundy tones, distant mountain ridges, no people, shot on 35mm lens, moody atmospheric grade, deep shadows, subtle film grain, ultra detailed, no text, no logo, no watermark"
+    }
+  ]
+}

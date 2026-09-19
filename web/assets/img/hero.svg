@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0B0B0B"/><stop offset="52%" stop-color="#5E1228" stop-opacity=".55"/><stop offset="100%" stop-color="#040404"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="28%" r="52%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity=".22"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+    </radialGradient>
+    
+  <filter id="g3">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope="0.055"/></feComponentTransfer>
+  </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+  <g stroke="#000" stroke-opacity=".55" fill="none">
+    <path d="M-100 468 Q 800 428 1700 468" stroke-width="1"/>
+    <path d="M-100 520 Q 800 474 1700 520" stroke-width="1.5"/>
+    <path d="M-100 572 Q 800 520 1700 572" stroke-width="2"/>
+    <path d="M-100 624 Q 800 566 1700 624" stroke-width="2.5"/>
+    <path d="M-100 676 Q 800 612 1700 676" stroke-width="3"/>
+    <path d="M-100 728.0000000000001 Q 800 658.0000000000001 1700 728.0000000000001" stroke-width="3.5"/>
+    <path d="M-100 780 Q 800 704 1700 780" stroke-width="4"/>
+    <path d="M-100 832 Q 800 750 1700 832" stroke-width="4.5"/>
+    <path d="M-100 884 Q 800 796 1700 884" stroke-width="5"/>
+  </g>
+  <g fill="#000" opacity=".82">
+    <rect x="-3" y="738" width="6" height="162"/>
+    <rect x="120.07692307692308" y="678" width="6" height="221.99999999999997"/>
+    <rect x="243.15384615384616" y="618" width="6" height="282"/>
+    <rect x="366.2307692307692" y="723" width="6" height="177"/>
+    <rect x="489.3076923076923" y="663" width="6" height="236.99999999999997"/>
+    <rect x="612.3846153846155" y="603" width="6" height="296.99999999999994"/>
+    <rect x="735.4615384615385" y="708" width="6" height="192"/>
+    <rect x="858.5384615384615" y="648" width="6" height="252.00000000000003"/>
+    <rect x="981.6153846153846" y="588" width="6" height="312"/>
+    <rect x="1104.6923076923076" y="693" width="6" height="206.99999999999997"/>
+    <rect x="1227.769230769231" y="633" width="6" height="266.99999999999994"/>
+    <rect x="1350.8461538461538" y="738" width="6" height="162"/>
+    <rect x="1473.923076923077" y="678" width="6" height="221.99999999999997"/>
+    <rect x="1597" y="618" width="6" height="282"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#g-none)"/>
+  <text x="800" y="866" text-anchor="middle" font-family="monospace" font-size="13" letter-spacing="6" fill="#6E6E6E">SONGSAN HILL VINEYARD · MIDNIGHT HARVEST</text>
+  <rect width="1600" height="900" filter="url(#g3)" opacity=".55"/>
+</svg>

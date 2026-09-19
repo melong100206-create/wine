@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>상품 상세 · 송산언덕 포도원</title>
+<meta name="theme-color" content="#0D0D0D">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/consumer.css">
+</head>
+<body data-base="./" class="has-buybar">
+
+<div class="spacer-header"></div>
+<main class="wrap section" id="detail" style="padding-top:clamp(40px,6vw,80px)"></main>
+<div class="buybar" id="buybar" hidden></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.SONGSAN;
+  var id = new URLSearchParams(location.search).get('id') || S.products[0].id;
+  var p = S.products.find(function (x) { return x.id === id; }) || S.products[0];
+  var soldout = p.stock === 0;
+  document.title = p.name + ' · 송산언덕 포도원';
+
+  /* 갤러리 소스: 병 → 패키지 → 발효실 → 페어링 */
+  var shots = [
+    { photo: p.photo,      svg: p.svg,           cap: '병' },
+    { photo: p.photoAlt,   svg: p.svgAlt,        cap: '전용 패키지' },
+    { photo: 'craft-onggi', svg: 'craft-onggi.svg', cap: '발효실' },
+    { photo: p.pairing[0].img, svg: p.pairing[0].svg, cap: '페어링' }
+  ];
+
+  var gauges = Object.keys(p.tasting).map(function (k) {
+    return '<div class="gauge-row">' +
+      '<span class="g-label">' + k + '</span>' +
+      '<span class="g-track"><i class="g-fill" data-v="' + p.tasting[k] + '"></i></span>' +
+      '<span class="g-val num">' + p.tasting[k] + '/5</span></div>';
+  }).join('');
+
+  document.getElementById('detail').innerHTML =
+  '<div class="breadcrumb"><a href="index.html">HOME</a> · <a href="products.html">WINE</a> · ' + p.nameEn + '</div>' +
+  '<div class="detail">' +
+
+    /* ① 몰입형 갤러리 */
+    '<div class="gallery">' +
+      '<div class="gallery-main" id="gmain">' + S.img(shots[0].photo, shots[0].svg, p.name) + '</div>' +
+      '<div class="gallery-thumbs" id="gthumbs">' +
+        shots.map(function (s, i) {
+          return '<button aria-pressed="' + (i === 0) + '" data-i="' + i + '" aria-label="' + s.cap + '">' +
+            S.img(s.photo, s.svg, s.cap) + '</button>';
+        }).join('') +
+      '</div>' +
+    '</div>' +
+
+    /* 구매 영역 */
+    '<div class="stack">' +
+      '<div class="row" style="gap:8px;flex-wrap:wrap">' +
+        (p.badges || []).map(function (b) { return '<span class="badge">' + b + '</span>'; }).join('') +
+        (soldout ? '<span class="badge soldout">SOLD OUT</span>'
+                 : (p.limited ? '<span class="badge solid">남은 ' + p.stock + '병</span>' : '')) +
+      '</div>' +
+      '<div><span class="p-variety">' + p.nameEn + '</span>' +
+        '<h1 class="t-h1 detail-title">' + p.name + '</h1></div>' +
+      '<p class="muted" style="max-width:44ch">' + p.short + '</p>' +
+
+      '<div class="acc" style="border-top:0">' +
+        '<dl style="display:grid;grid-template-columns:110px 1fr;gap:12px 20px;margin:0">' +
+          '<dt class="dim small">품종</dt><dd class="small">' + p.variety + '</dd>' +
+          '<dt class="dim small">빈티지</dt><dd class="small">' + p.year + '</dd>' +
+          '<dt class="dim small">용량 · 도수</dt><dd class="small num">' + p.volume + 'ml · ' + p.abv.toFixed(1) + '%</dd>' +
+          '<dt class="dim small">권장 음용</dt><dd class="small num">' + p.temp + '</dd>' +
+          '<dt class="dim small">향</dt><dd class="small">' + p.notes.join(' · ') + '</dd>' +
+        '</dl>' +
+      '</div>' +
+
+      '<div class="detail-price num">' + S.won(p.price) + '<span class="unit">원 (배송비 별도)</span></div>' +
+
+      '<div class="row" style="gap:16px;flex-wrap:wrap">' +
+        '<div class="qty">' +
+          '<button data-q="-1" aria-label="수량 감소">−</button>' +
+          '<input id="qty" class="num" value="1" inputmode="numeric" aria-label="수량">' +
+          '<button data-q="1" aria-label="수량 증가">+</button>' +
+        '</div>' +
+        '<button class="btn btn-primary" id="add" ' + (soldout ? 'disabled' : '') + '>' +
+          (soldout ? '이번 회차 마감' : '장바구니 담기') + '</button>' +
+      '</div>' +
+      '<p class="dim small">' + S.ddayText() + ' · ' + S.shipping.note + '</p>' +
+
+      /* ② 테이스팅 노트 */
+      '<div class="section" style="padding-block:clamp(36px,5vw,56px) 0">' +
+        '<span class="eyebrow">Tasting Note</span>' +
+        '<div class="gauge" style="margin-top:28px">' + gauges + '</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>' +
+
+  /* ④ 스토리 */
+  '<section class="section" style="padding-bottom:0">' +
+    '<div class="split-story">' +
+      '<div class="stack" data-reveal>' +
+        '<span class="eyebrow">Craftsmanship</span>' +
+        '<h2 class="t-h2">' + (p.limited ? '삼백 병에서 멈춥니다' : '열흘의 원칙') + '</h2>' +
+        '<p class="muted">' + p.story + '</p>' +
+        '<a class="link-underline" href="story.html">농장 이야기</a>' +
+      '</div>' +
+      '<div class="frame wide" data-reveal data-delay="1">' +
+        S.img('craft-hands', 'craft-hands.svg', '수확') +
+        '<span class="caption">수확 당일 · 선별</span></div>' +
+    '</div>' +
+  '</section>' +
+
+  /* ③ 페어링 */
+  '<section class="section">' +
+    '<div class="sec-head"><span class="eyebrow">Pairing</span><h2 class="t-h2">이 병과 함께</h2></div>' +
+    '<div class="pairing">' +
+      p.pairing.map(function (f, i) {
+        return '<figure data-reveal data-delay="' + (i + 1) + '">' +
+          '<div class="frame">' + S.img(f.img, f.svg, f.title) + '</div>' +
+          '<figcaption><h4>' + f.title + '</h4><p class="muted small">' + f.desc + '</p></figcaption>' +
+        '</figure>';
+      }).join('') +
+    '</div>' +
+  '</section>' +
+
+  /* ⑤ 법정 표시사항 */
+  '<section class="acc" style="margin-top:clamp(40px,6vw,70px)">' +
+    '<details><summary>법정 표시사항 및 거래조건</summary><div class="acc-body">' +
+      '<dl>' +
+        '<dt>제품명</dt><dd>' + p.name + '</dd>' +
+        '<dt>식품유형</dt><dd>과실주 (지역특산주)</dd>' +
+        '<dt>내용량 · 도수</dt><dd class="num">' + p.volume + 'ml · ' + p.abv.toFixed(1) + '%</dd>' +
+        '<dt>원재료</dt><dd>포도(국산 100%), 아황산염(산화방지제)</dd>' +
+        '<dt>제조원</dt><dd>' + S.brand.bizName + ' · ' + S.brand.addr + '</dd>' +
+        '<dt>소비기한</dt><dd>병입일로부터 24개월 (라벨 하단 별도 표기)</dd>' +
+        '<dt>보관방법</dt><dd>직사광선을 피해 12–16℃ 서늘한 곳에 눕혀 보관</dd>' +
+        '<dt>교환·반품</dt><dd>주류 특성상 단순변심 반품 불가. 파손·오배송은 수령 후 7일 이내 전액 환불</dd>' +
+        '<dt>수령 확인</dt><dd>성인 본인 또는 성인 대리수령자만 수령 가능 (신분증 대조)</dd>' +
+      '</dl>' +
+      '<p class="dim small" style="margin-top:20px">과도한 음주는 뇌졸중, 기억력 손상이나 치매를 유발합니다. ' +
+      '임신 중 음주는 기형아 출생 위험을 높입니다. 만 19세 미만 판매 금지.</p>' +
+    '</div></details>' +
+    '<details><summary>배송 안내</summary><div class="acc-body">' +
+      '<p>수확 회차 단위로 묶어 출고합니다. ' + S.ddayText() + '. 출고 후 1–2일 내 도착하며, ' +
+      '배송비 ' + S.won(S.shipping.fee) + '원 · ' + S.shipping.note + '입니다. 제주·도서산간은 추가 운임이 발생합니다.</p>' +
+    '</div></details>' +
+  '</section>';
+
+  /* 갤러리 전환 */
+  var gmain = document.getElementById('gmain');
+  document.getElementById('gthumbs').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var s = shots[Number(b.dataset.i)];
+    gmain.innerHTML = S.img(s.photo, s.svg, p.name);
+    Array.prototype.forEach.call(this.children, function (c) { c.setAttribute('aria-pressed', c === b); });
+  });
+
+  /* 수량 · 담기 */
+  var qty = document.getElementById('qty');
+  document.querySelector('.qty').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-q]'); if (!b) return;
+    qty.value = Math.max(1, (parseInt(qty.value, 10) || 1) + Number(b.dataset.q));
+  });
+  function addToCart() { S.Cart.add(p.id, Math.max(1, parseInt(qty.value, 10) || 1)); }
+  document.getElementById('add').addEventListener('click', addToCart);
+
+  /* 모바일 플로팅 구매 바 (글래스모피즘) */
+  var bb = document.getElementById('buybar');
+  bb.hidden = false;
+  bb.innerHTML =
+    '<div><div class="bb-name">' + p.nameEn + '</div>' +
+    '<div class="bb-price num">' + S.won(p.price) + '원</div></div>' +
+    '<button class="btn btn-primary btn-sm" id="bb-add" ' + (soldout ? 'disabled' : '') + '>' +
+    (soldout ? '마감' : '장바구니') + '</button>';
+  if (!soldout) document.getElementById('bb-add').addEventListener('click', addToCart);
+
+  S.reveal(); S.gauges();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>장바구니 · 송산언덕 포도원</title>
+<meta name="theme-color" content="#0D0D0D">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/consumer.css">
+</head>
+<body data-base="./">
+
+<header class="page-head wrap">
+  <div class="breadcrumb"><a href="index.html">HOME</a> · CART</div>
+  <h1 class="t-h1">장바구니</h1>
+</header>
+
+<main class="section wrap">
+  <div class="cart-layout" id="layout"></div>
+</main>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.SONGSAN;
+  var layout = document.getElementById('layout');
+
+  function paint() {
+    var t = S.Cart.totals();
+
+    if (!t.rows.length) {
+      layout.style.display = 'block';
+      layout.innerHTML =
+        '<div class="empty">' +
+          '<span class="eyebrow center" style="justify-content:center">Empty</span>' +
+          '<h2 class="t-h2">담긴 와인이 없습니다</h2>' +
+          '<p class="muted small">이번 회차 물량은 소진되면 다음 수확까지 기다리셔야 합니다.</p>' +
+          '<a class="btn btn-primary" href="products.html">와인 보러 가기</a>' +
+        '</div>';
+      return;
+    }
+
+    layout.style.display = '';
+    layout.innerHTML =
+      '<div>' +
+        t.rows.map(function (r) {
+          return '<div class="cart-row" data-id="' + r.id + '">' +
+            '<div class="thumb">' + S.img(r.product.photo, r.product.svg, r.product.name) + '</div>' +
+            '<div>' +
+              '<a class="r-name" href="product.html?id=' + r.id + '">' + r.product.name + '</a>' +
+              '<div class="r-meta num">' + r.product.volume + 'ml · ' + r.product.abv.toFixed(1) + '% · ' + S.won(r.product.price) + '원</div>' +
+              '<div class="qty" style="margin-top:14px">' +
+                '<button data-q="-1" aria-label="수량 감소">−</button>' +
+                '<input class="num" value="' + r.qty + '" inputmode="numeric" aria-label="수량">' +
+                '<button data-q="1" aria-label="수량 증가">+</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="r-right">' +
+              '<span class="num" style="font-size:16px">' + S.won(r.line) + '원</span>' +
+              '<button class="remove">삭제</button>' +
+            '</div>' +
+          '</div>';
+        }).join('') +
+        '<div class="row between" style="padding-top:26px">' +
+          '<a class="link-underline" href="products.html">계속 둘러보기</a>' +
+          '<button class="remove" id="clear">전체 비우기</button>' +
+        '</div>' +
+      '</div>' +
+
+      '<aside class="summary">' +
+        '<span class="eyebrow">Order Summary</span>' +
+        '<div style="margin-top:26px">' +
+          '<div class="sum-row"><span>와인 ' + t.bottles + '병</span><span class="num">' + S.won(t.subtotal) + '원</span></div>' +
+          '<div class="sum-row"><span>배송비</span><span class="num">' + (t.ship ? S.won(t.ship) + '원' : '무료') + '</span></div>' +
+          '<div class="sum-row"><span>전용 패키징</span><span class="num">포함</span></div>' +
+          '<div class="sum-row total"><span>결제 예정</span><span class="num">' + S.won(t.total) + '원</span></div>' +
+        '</div>' +
+        '<a class="btn btn-primary btn-block" href="checkout.html" style="margin-top:28px">주문하기</a>' +
+        '<p class="dim xsmall" style="margin-top:20px;line-height:1.9">' +
+          S.ddayText() + ' 출고 예정입니다.<br>' +
+          '주류는 성인 수령자 확인 후 전달되며, 부재 시 재배송됩니다.' +
+        '</p>' +
+      '</aside>';
+  }
+
+  layout.addEventListener('click', function (e) {
+    var row = e.target.closest('.cart-row');
+    if (e.target.id === 'clear') { S.Cart.clear(); paint(); return; }
+    if (!row) return;
+    var id = row.dataset.id;
+    if (e.target.classList.contains('remove')) { S.Cart.remove(id); paint(); return; }
+    var b = e.target.closest('[data-q]');
+    if (b) {
+      var input = row.querySelector('.qty input');
+      S.Cart.setQty(id, (parseInt(input.value, 10) || 1) + Number(b.dataset.q));
+      paint();
+    }
+  });
+
+  layout.addEventListener('change', function (e) {
+    var row = e.target.closest('.cart-row');
+    if (row && e.target.matches('.qty input')) {
+      S.Cart.setQty(row.dataset.id, parseInt(e.target.value, 10) || 1);
+      paint();
+    }
+  });
+
+  paint();
+});
+</script>
+</body>
+</html>

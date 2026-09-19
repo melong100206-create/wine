@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>농장 이야기 · 송산언덕 포도원</title>
+<meta name="description" content="한 해 삼천 병. 만든 만큼만, 가장 온전한 상태로 보내기 위한 고집.">
+<meta name="theme-color" content="#0D0D0D">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/consumer.css">
+</head>
+<body data-base="./">
+
+<header class="page-head wrap">
+  <div class="breadcrumb"><a href="index.html">HOME</a> · STORY</div>
+  <h1 class="t-h1">한 해 삼천 병</h1>
+  <p class="muted" style="max-width:48ch;margin-top:20px">
+    많이 만들지 않습니다. 밭이 그만큼이고, 열흘 안에 손댈 수 있는 양이 그만큼입니다.
+  </p>
+</header>
+
+<section class="wrap" style="padding-top:clamp(40px,5vw,72px)">
+  <div class="frame wide" id="wide-shot" data-reveal></div>
+</section>
+
+<section class="section wrap">
+  <div class="split-story">
+    <div class="stack" data-reveal>
+      <span class="eyebrow">Principle 01</span>
+      <h2 class="t-h2">열흘의 원칙</h2>
+      <p class="muted">
+        포도는 수확한 순간부터 변합니다. 저희는 선별·파쇄·발효·병입까지를 열흘 안에 끝냅니다.
+        빨리 만들기 위해서가 아니라, 늦출수록 잃는 것을 붙잡기 위해서입니다.
+        오래 두어 좋아지는 것은 밭에서 이미 기다렸습니다.
+      </p>
+    </div>
+    <div class="frame tall" id="s1" data-reveal data-delay="1" data-parallax="24"></div>
+  </div>
+</section>
+
+<section class="section wrap" style="padding-top:0">
+  <div class="split-story reverse">
+    <div class="stack" data-reveal>
+      <span class="eyebrow">Principle 02</span>
+      <h2 class="t-h2">항아리는 숨을 쉽니다</h2>
+      <p class="muted">
+        스테인리스 탱크는 실패하지 않습니다. 옹기는 실패합니다. 매년 몇 통은 그대로 버립니다.
+        그래도 옹기를 쓰는 이유는, 살아남은 통에서만 나오는 결이 있기 때문입니다.
+        그 술은 삼백 병에서 멈춥니다. 더 만들 수 없어서가 아니라, 더 만들면 그 술이 아니게 되어서입니다.
+      </p>
+      <a class="link-underline" href="product.html?id=onggi-limited">한정판 보기</a>
+    </div>
+    <div class="frame tall" id="s2" data-reveal data-delay="1" data-parallax="-20"></div>
+  </div>
+</section>
+
+<section class="section wrap">
+  <div class="figures" data-reveal>
+    <div><div class="fig-n num">3,000</div><div class="fig-l">연간 생산 병수</div></div>
+    <div><div class="fig-n num">10</div><div class="fig-l">수확 후 출고일</div></div>
+    <div><div class="fig-n num">4</div><div class="fig-l">회차당 품목</div></div>
+    <div><div class="fig-n num">0</div><div class="fig-l">중간 유통 단계</div></div>
+  </div>
+</section>
+
+<section class="section wrap">
+  <div class="split-story">
+    <div class="stack" data-reveal>
+      <span class="eyebrow">Principle 03</span>
+      <h2 class="t-h2">직접 보내는 이유</h2>
+      <p class="muted">
+        도매와 소매를 거치면 병은 최소 두 번 더 옮겨 실립니다. 그 사이의 온도와 진동은
+        아무도 책임지지 않습니다. 저희가 직접 보내는 것은 값을 낮추기 위해서가 아니라,
+        마지막 문 앞까지의 상태를 저희가 책임지기 위해서입니다.
+      </p>
+      <p class="dim small">
+        그래서 포장에서는 타협하지 않습니다. 무광 블랙 하드케이스, 병 모양으로 정밀 커팅한 고밀도 폼,
+        금박 테이스팅 카드. 원가는 상품가에 이미 들어가 있습니다.
+      </p>
+    </div>
+    <div class="frame tall" id="s3" data-reveal data-delay="1"></div>
+  </div>
+</section>
+
+<section class="section wrap center">
+  <div class="stack" data-reveal>
+    <span class="eyebrow center" style="justify-content:center">Visit</span>
+    <h2 class="t-h1">직접 오시면<br>이야기가 짧아집니다</h2>
+    <div><a class="btn btn-gold" href="experience.html">체험농장 초청</a></div>
+  </div>
+</section>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/card.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var S = window.SONGSAN;
+  document.getElementById('wide-shot').innerHTML =
+    S.img('story-wide', 'scene-wide.svg', '새벽 포도밭') + '<span class="caption">새벽 · 송산언덕</span>';
+  document.getElementById('s1').innerHTML =
+    S.img('craft-hands', 'craft-hands.svg', '수확한 포도') + '<span class="caption">수확 당일</span>';
+  document.getElementById('s2').innerHTML =
+    S.img('craft-onggi', 'craft-onggi.svg', '항아리 발효실') + '<span class="caption">항아리 발효실</span>';
+  document.getElementById('s3').innerHTML =
+    S.img('box-open', 'box-jar.svg', '전용 패키지') + '<span class="caption">출고 전 · 전용 하드케이스</span>';
+});
+</script>
+</body>
+</html>
