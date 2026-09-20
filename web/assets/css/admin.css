@@ -105,3 +105,10 @@ html.staff-checking body::after {
   position: fixed; inset: 0; display: grid; place-items: center;
   color: var(--a-text-2); font-size: 14px; background: var(--a-bg); visibility: visible;
 }
+
+/* 회원 권한 지정 */
+.role-q { width: 100%; max-width: 340px; padding: 10px 13px; border: 1px solid var(--a-line); border-radius: 3px; font: inherit; }
+.role-q:focus { outline: none; border-color: var(--a-text); }
+.role-set { display: flex; gap: 8px; align-items: center; }
+.role-set select { padding: 7px 10px; border: 1px solid var(--a-line); border-radius: 3px; font: inherit; background: #fff; }
+.role-set select:focus { outline: none; border-color: var(--a-text); }
